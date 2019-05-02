@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,7 +23,8 @@ public class MainMenu {
         root = new VBox();
         scene = new Scene(root, 500, 500);
 
-        background = new BackgroundImage(new Image("/images/dolphin.jpg", 500,
+        background = new BackgroundImage(new Image("file:images/dolphin.png",
+                500,
                 500, false, true), BackgroundRepeat.REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
@@ -38,7 +40,7 @@ public class MainMenu {
         editButton.setOnAction(event -> System.out.println("Editing member"));
         deleteButton.setOnAction(event -> System.out.println("Deleting " +
                 "member"));
-        exitButton.setOnAction(event -> System.out.println("Exiting"));
+        exitButton.setOnAction(event -> Platform.exit());
 
         // Give the buttons an upper width limit
         createButton.setMaxWidth(75);
@@ -52,9 +54,10 @@ public class MainMenu {
         // Setting up the layout
         root.setAlignment(Pos.CENTER);
 
+        // Spacing between the buttons
         root.setSpacing(10);
         root.setPadding(new Insets(0, 20, 10, 20));
-
+        
         GridPane.setConstraints(createButton, 1, 0);
         GridPane.setHalignment(createButton, HPos.CENTER);
 

@@ -11,10 +11,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        MainMenu mainMenu = new MainMenu();
+        Controller controller = new Controller(stage);
 
+        // NOTE: for some reason the background gets a small tearing
+        // on the right side when applying the resizable property
+        stage.setResizable(false);
         stage.setTitle("Swimclub Dolphin - Administrative System");
-        stage.setScene(mainMenu.getScene());
+        stage.setScene(controller.getActiveScene());
         stage.show();
     }
 }

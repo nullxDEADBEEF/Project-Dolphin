@@ -18,8 +18,10 @@ public class MainMenu {
     private Button exitButton;
     private BackgroundImage background;
 
+    private static MainMenu instance = null;
 
-    public MainMenu() {
+
+    private MainMenu() {
         root = new VBox();
         scene = new Scene(root, 500, 500);
 
@@ -57,7 +59,7 @@ public class MainMenu {
         // Spacing between the buttons
         root.setSpacing(10);
         root.setPadding(new Insets(0, 20, 10, 20));
-        
+
         GridPane.setConstraints(createButton, 1, 0);
         GridPane.setHalignment(createButton, HPos.CENTER);
 
@@ -72,6 +74,14 @@ public class MainMenu {
 
         root.getChildren().addAll(createButton, editButton, deleteButton,
                 exitButton);
+    }
+
+    public static MainMenu getInstance() {
+        if (instance == null) {
+            instance = new MainMenu();
+        }
+
+        return instance;
     }
 
     public Scene getScene() {

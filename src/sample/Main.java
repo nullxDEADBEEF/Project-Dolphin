@@ -15,6 +15,7 @@ public class Main extends Application {
 
         // NOTE: for some reason the background gets a small tearing
         // on the right side when applying the resizable property
+        // but disappears when you go to the next scene
         stage.setResizable(false);
         stage.setTitle("Swimclub Dolphin - Administrative System");
         stage.setScene(controller.getActiveScene());

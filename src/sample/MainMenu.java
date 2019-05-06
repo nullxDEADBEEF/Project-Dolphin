@@ -6,7 +6,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 public class MainMenu {
@@ -16,20 +15,13 @@ public class MainMenu {
     private Button editButton;
     private Button deleteButton;
     private Button exitButton;
-    private BackgroundImage background;
 
     private static MainMenu instance = null;
 
 
     private MainMenu() {
         root = new VBox();
-        scene = new Scene(root, 500, 500);
-
-        background = new BackgroundImage(new Image("file:images/dolphin.png",
-                500,
-                500, false, true), BackgroundRepeat.REPEAT,
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
+        scene = new Scene(root, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         createButton = new Button("Create");
         editButton = new Button("Edit");
@@ -37,8 +29,9 @@ public class MainMenu {
         exitButton = new Button("Exit");
 
         // Handle button events
-        createButton.setOnAction(event -> System.out.println("Creating " +
-                "member"));
+        createButton.setOnAction(event ->
+                Controller.setActiveScene(MemberCreation.getInstance().getScene()));
+
         editButton.setOnAction(event -> System.out.println("Editing member"));
         deleteButton.setOnAction(event -> System.out.println("Deleting " +
                 "member"));
@@ -51,7 +44,7 @@ public class MainMenu {
         exitButton.setMaxWidth(75);
 
         // Set background
-        root.setBackground(new Background(background));
+        root.setBackground(new Background(Constants.BACKGROUND_IMAGE));
 
         // Setting up the layout
         root.setAlignment(Pos.CENTER);

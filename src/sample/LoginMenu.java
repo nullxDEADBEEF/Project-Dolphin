@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -20,19 +19,12 @@ public class LoginMenu {
     private Label passwordLabel;
     private TextField usernameTextField;
     private PasswordField passwordTextField;
-    private BackgroundImage background;
 
     private static LoginMenu instance = null;
 
     private LoginMenu() {
         root = new GridPane();
-        scene = new Scene(root, 500, 500);
-
-        // Load background image
-        background = new BackgroundImage(new Image("file:images/dolphin.png",
-                500, 500, false, true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        scene = new Scene(root, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         usernameLabel = new Label("Username");
         passwordLabel = new Label("Password");
@@ -47,7 +39,7 @@ public class LoginMenu {
         root.add(passwordTextField, 1, 1);
 
         // Set the background and gap between buttons
-        root.setBackground(new Background(background));
+        root.setBackground(new Background(Constants.BACKGROUND_IMAGE));
         root.setVgap(5);
         root.setHgap(10);
 
@@ -77,10 +69,6 @@ public class LoginMenu {
         }
 
         return instance;
-    }
-
-    public GridPane getRoot() {
-        return root;
     }
 
     public Scene getScene() {

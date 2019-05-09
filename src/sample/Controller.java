@@ -2,6 +2,8 @@ package sample;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Menues.LoginMenu;
+import sample.Menues.MainMenu;
 
 public class Controller {
     private MainMenu mainMenu;

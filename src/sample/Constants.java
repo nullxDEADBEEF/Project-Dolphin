@@ -7,10 +7,12 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 
 public class Constants {
-    static final int WINDOW_HEIGHT = 500;
-    static final int WINDOW_WIDTH = 500;
-    static final BackgroundImage BACKGROUND_IMAGE = new BackgroundImage(
-            new Image("file:images/dolphin.png", WINDOW_WIDTH, WINDOW_HEIGHT,
+    public static final int WINDOW_HEIGHT = 500;
+    public static final int WINDOW_WIDTH = 500;
+    public static final BackgroundImage BACKGROUND_IMAGE = new BackgroundImage(
+            new Image("file:images/dolphin_pretty.png", WINDOW_WIDTH,
+                    WINDOW_HEIGHT,
             false, true),BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            BackgroundPosition.DEFAULT, new BackgroundSize(WINDOW_WIDTH,
+            WINDOW_HEIGHT, false, false, false, true));
 }

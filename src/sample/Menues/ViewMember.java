@@ -1,7 +1,5 @@
 package sample.Menues;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +11,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import sample.Constants;
 import sample.Controller;
-import sample.User.Member;
+import sample.IO.IOWriter;
+import sample.Member;
+import sample.MemberList;
 
 public class ViewMember {
     private GridPane layout;
@@ -22,7 +22,6 @@ public class ViewMember {
     private Scene memberScene;
 
     private ListView<Member> membersListView;
-    private ObservableList members;
     private Button editButton;
     private Button deleteButton;
     private Button backButton;
@@ -81,7 +80,6 @@ public class ViewMember {
                 Constants.WINDOW_HEIGHT);
 
         membersListView = new ListView<Member>();
-        members = FXCollections.observableArrayList();
         editButton = new Button("Edit");
         deleteButton = new Button("Delete");
         backButton = new Button("Back");
@@ -115,6 +113,14 @@ public class ViewMember {
 
         backButton.setOnAction(click ->
                 Controller.setActiveScene(MainMenu.getInstance().getScene()));
+        deleteButton.setOnAction(click -> {
+            String fileName =
+                    membersListView.getSelectionModel().getSelectedItem().getId();
+            IOWriter.deleteFile(fileName);
+
+            MemberList.members.remove(membersListView.getSelectionModel().getSelectedItem());
+        });
+
         memberInfobackButton.setOnAction(click -> Controller.setActiveScene(scene));
 
         // NOTE: MouseButton.PRIMARY means left click
@@ -122,37 +128,20 @@ public class ViewMember {
             if (click.getButton().equals(MouseButton.PRIMARY)) {
                 if (click.getClickCount() == 2) {
                     Controller.setActiveScene(memberScene);
-                    displayMemberInfoPage(membersListView.getSelectionModel().getSelectedItem());
+                    displayMemberInfo(membersListView.getSelectionModel().getSelectedItem());
                 }
             }
         });
 
-        Member niklas = new Member("0", "Niklas Lund Brock", "", null,
-                null, false, true, false,
-               "test@gmail.com", "45454545", false, 0,
-        null);
-
-        Member frederik = new Member("1", "Frederik Primdahl", "", null,
-                null, false, true, false,
-                "test11@gmail.com", "45454533", false, 0,
-                null);
-
-        Member mikael = new Member("2", "Mikael Pasovski", "", null,
-                null, false, true, false,
-                "test34@gmail.com", "43344545", false, 0,
-                null);
-
-        members.addAll(niklas, frederik, mikael);
-
-        membersListView.setItems(members);
+        membersListView.setItems(MemberList.members);
     }
 
-    private void displayMemberInfoPage(Member member) {
+    private void displayMemberInfo(Member member) {
         idLabel.setText("ID: " + member.getId());
         nameLabel.setText("Name: " + member.getName());
         disciplineLabel.setText("Discipline: " + member.getDiscipline());
-        birthdayLabel.setText("Birthday: " + member.getBirthday());
-        startDateLabel.setText("Start date: " + member.getStartDate());
+        birthdayLabel.setText("Birthday: " + member.getBirthday().getEditor().getCharacters());
+        startDateLabel.setText("Start date: " + member.getStartDate().getEditor().getCharacters());
         competetiveLabel.setText("Competetive: " + member.isCompetetive());
         activeLabel.setText("Active: " + member.isActive());
         senorityLabel.setText("Senority: " + member.isSenority());

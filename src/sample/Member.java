@@ -1,14 +1,18 @@
-package sample.User;
+package sample;
 
-import java.time.LocalDate;
+import javafx.scene.control.DatePicker;
+import sample.User.Trainer;
+
+import java.util.Calendar;
+import java.util.Random;
 
 public class Member {
     private String id;
     private String name;
     private String discipline;
-    private LocalDate birthday;
-    private LocalDate startDate;
-    private boolean competetive;
+    private DatePicker birthday;
+    private DatePicker startDate;
+    private boolean competitive;
     private boolean active;
     private boolean senority;
     private String email;
@@ -17,24 +21,39 @@ public class Member {
     private int balance;
     private Trainer appointedTrainer;
 
-    public Member(String Id, String Name, String Discipline, LocalDate Birthday,
-                  LocalDate StartDate, boolean Competetive, boolean Active,
-                  boolean Senority, String Email, String PhoneNumber,
-                  boolean Deficit, int Balance, Trainer AppointedTrainer) {
+    public Member(String Name, String Discipline, DatePicker Birthday,
+                  DatePicker StartDate, boolean Competitive, boolean Active,
+                  String Email, String PhoneNumber, int Balance, Trainer AppointedTrainer) {
 
-        id = Id;
+        Random random = new Random();
+
+        id = String.valueOf(random.nextInt());
         name = Name;
         discipline = Discipline;
         birthday = Birthday;
         startDate = StartDate;
-        competetive = Competetive;
+        competitive = Competitive;
         active = Active;
-        senority = Senority;
         email = Email;
         phoneNumber = PhoneNumber;
-        deficit = Deficit;
         balance = Balance;
         appointedTrainer = AppointedTrainer;
+
+        int age =
+                Calendar.getInstance().get(Calendar.YEAR) - birthday.getValue().getYear();
+
+        if (age > 18) {
+            senority = true;
+        } else {
+            senority = false;
+        }
+
+        // NOTE: assume that there is no deficit upon creation of a member
+        deficit = false;
+    }
+
+    public String toString() {
+        return name;
     }
 
     public String getId() {
@@ -49,16 +68,16 @@ public class Member {
         return discipline;
     }
 
-    public LocalDate getBirthday() {
+    public DatePicker getBirthday() {
         return birthday;
     }
 
-    public LocalDate getStartDate() {
+    public DatePicker getStartDate() {
         return startDate;
     }
 
     public boolean isCompetetive() {
-        return competetive;
+        return competitive;
     }
 
     public boolean isActive() {

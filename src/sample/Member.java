@@ -3,6 +3,8 @@ package sample;
 import javafx.scene.control.DatePicker;
 import sample.User.Trainer;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -10,8 +12,8 @@ public class Member {
     private String id;
     private String name;
     private String discipline;
-    private DatePicker birthday;
-    private DatePicker startDate;
+    private LocalDate birthday;
+    private LocalDate startDate;
     private boolean competitive;
     private boolean active;
     private boolean senority;
@@ -21,8 +23,8 @@ public class Member {
     private int balance;
     private Trainer appointedTrainer;
 
-    public Member(String Name, String Discipline, DatePicker Birthday,
-                  DatePicker StartDate, boolean Competitive, boolean Active,
+    public Member(String Name, String Discipline, LocalDate Birthday,
+                  LocalDate StartDate, boolean Competitive, boolean Active,
                   String Email, String PhoneNumber, int Balance, Trainer AppointedTrainer) {
 
         Random random = new Random();
@@ -39,8 +41,7 @@ public class Member {
         balance = Balance;
         appointedTrainer = AppointedTrainer;
 
-        int age =
-                Calendar.getInstance().get(Calendar.YEAR) - birthday.getValue().getYear();
+        int age = LocalDate.now().getYear() - birthday.getYear();
 
         if (age > 18) {
             senority = true;
@@ -68,11 +69,11 @@ public class Member {
         return discipline;
     }
 
-    public DatePicker getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public DatePicker getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 

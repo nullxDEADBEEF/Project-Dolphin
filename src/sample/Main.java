@@ -14,6 +14,7 @@ public class Main extends Application {
         Controller controller = new Controller(stage);
 
         stage.setResizable(false);
+        stage.centerOnScreen();
         stage.setTitle("Swimclub Dolphin - Administrative System");
         stage.setScene(controller.getActiveScene());
         stage.show();

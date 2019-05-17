@@ -1,6 +1,7 @@
 package sample.Menues;
 
 import javafx.application.Platform;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,6 +37,9 @@ public class LoginMenu {
 
         usernameTextField = new TextField();
         passwordTextField = new PasswordField();
+
+        usernameTextField.setPromptText("Username");
+        passwordTextField.setPromptText("Password");
 
         layout.add(usernameTextField, 1, 0);
         layout.add(passwordTextField, 1, 1);

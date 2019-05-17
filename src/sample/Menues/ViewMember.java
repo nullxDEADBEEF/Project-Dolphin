@@ -140,8 +140,8 @@ public class ViewMember {
         idLabel.setText("ID: " + member.getId());
         nameLabel.setText("Name: " + member.getName());
         disciplineLabel.setText("Discipline: " + member.getDiscipline());
-        birthdayLabel.setText("Birthday: " + member.getBirthday().getEditor().getCharacters());
-        startDateLabel.setText("Start date: " + member.getStartDate().getEditor().getCharacters());
+        birthdayLabel.setText("Birthday: " + member.getBirthday());
+        startDateLabel.setText("Start date: " + member.getStartDate());
         competetiveLabel.setText("Competetive: " + member.isCompetetive());
         activeLabel.setText("Active: " + member.isActive());
         senorityLabel.setText("Senority: " + member.isSenority());

@@ -6,16 +6,19 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 import sample.Constants;
 import sample.Controller;
 import sample.IO.IOWriter;
 import sample.Member;
 import sample.MemberList;
 import sample.User.Trainer;
+import sample.User.TrainerList;
 
-import java.time.chrono.Chronology;
+import javax.swing.text.DateFormatter;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+
 
 public class MemberCreation {
     private GridPane layout;
@@ -33,13 +36,13 @@ public class MemberCreation {
 
     private TextField firstNameTextField;
     private TextField lastNameTextField;
-    private TextField disciplineTextField;
+    private ComboBox disciplineComboBox;
     private DatePicker birthdayDatePicker;
     private DatePicker startDatePicker;
     private TextField emailAddressTextField;
     private TextField phoneNumberTextField;
     private TextField balanceTextField;
-    private TextField trainerTextField;
+    private ComboBox<Trainer> trainerComboBox;
 
     private Button finishButton;
     private Button backButton;
@@ -79,8 +82,13 @@ public class MemberCreation {
 
         firstNameTextField = new TextField();
         lastNameTextField = new TextField();
-        // TODO: change the discipline to a picker
-        disciplineTextField = new TextField();
+        disciplineComboBox = new ComboBox();
+        disciplineComboBox.setPromptText("Select discipline");
+        disciplineComboBox.getItems().add("Freestyle");
+        disciplineComboBox.getItems().add("Breaststroke");
+        disciplineComboBox.getItems().add("Backstroke");
+
+        TrainerList trainerList = new TrainerList();
 
         birthdayDatePicker = new DatePicker();
         startDatePicker = new DatePicker();
@@ -88,8 +96,11 @@ public class MemberCreation {
         emailAddressTextField = new TextField();
         phoneNumberTextField = new TextField();
         balanceTextField = new TextField();
-        // TODO: change the trainer to a picker(from a list of trainers)
-        trainerTextField = new TextField();
+        trainerComboBox = new ComboBox();
+        trainerComboBox.setPromptText("Select trainer");
+        for (Trainer trainer : trainerList.getTrainers()) {
+            trainerComboBox.getItems().add(trainer);
+        }
 
         finishButton = new Button("Finish");
         backButton = new Button("Back");
@@ -133,13 +144,13 @@ public class MemberCreation {
 
         layout.add(firstNameTextField, 1, 0);
         layout.add(lastNameTextField, 1, 1);
-        layout.add(disciplineTextField, 1, 2);
+        layout.add(disciplineComboBox, 1, 2);
         layout.add(birthdayDatePicker, 1, 3);
         layout.add(startDatePicker, 1, 4);
         layout.add(emailAddressTextField, 1, 5);
         layout.add(phoneNumberTextField, 1, 6);
         layout.add(balanceTextField, 1, 7);
-        layout.add(trainerTextField, 1, 8);
+        layout.add(trainerComboBox, 1, 8);
 
         layout.add(activeMembershipRadioButton, 0, 10);
         layout.add(passiveMembershipRadioButton, 1, 10);
@@ -148,9 +159,6 @@ public class MemberCreation {
         layout.add(finishButton, 0, 12);
         layout.add(backButton, 1, 12);
 
-        // TODO: make the trainer a dropdown select thingie
-        // TODO: remember to remove the properties in the trainer object
-        //  creation
         finishButton.setOnAction(click -> {
             boolean activeMembership;
             if (membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton) {
@@ -166,17 +174,16 @@ public class MemberCreation {
             }
 
             Member member =
-                    new Member(firstNameTextField.getCharacters().toString()
-                            + " " + lastNameTextField.getCharacters().toString(),
-                            disciplineTextField.getCharacters().toString(),
-                            birthdayDatePicker, startDatePicker, competitiveSwimmer,
+                    new Member(firstNameTextField.getText()
+                            + " " + lastNameTextField.getText(),
+                            disciplineComboBox.getValue().toString(),
+                            birthdayDatePicker.getValue(), startDatePicker.getValue(),
+                            competitiveSwimmer,
                             activeMembership,
-                            // NOTE: the active should be changed to be
-                            // depending on the selected button in creation
-                            emailAddressTextField.getCharacters().toString(),
-                            phoneNumberTextField.getCharacters().toString(),
-                            Integer.parseInt(balanceTextField.getCharacters().toString()),
-                            new Trainer(10, "Frederik", "1234", 3));
+                            emailAddressTextField.getText(),
+                            phoneNumberTextField.getText(),
+                            Integer.parseInt(balanceTextField.getText()),
+                            trainerComboBox.getSelectionModel().getSelectedItem());
 
             IOWriter.writeFile(member);
             clearFields();
@@ -187,18 +194,16 @@ public class MemberCreation {
                 Controller.setActiveScene(MainMenu.getInstance().getScene());
                 clearFields();
         });
-
-
     }
 
     private void clearFields() {
         firstNameTextField.clear();
         lastNameTextField.clear();
-        disciplineTextField.clear();
         emailAddressTextField.clear();
         phoneNumberTextField.clear();
         balanceTextField.clear();
-        trainerTextField.clear();
+        trainerComboBox.getSelectionModel().clearSelection();
+        disciplineComboBox.getSelectionModel().clearSelection();
 
         birthdayDatePicker.getEditor().clear();
         startDatePicker.getEditor().clear();

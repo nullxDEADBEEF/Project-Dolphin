@@ -20,8 +20,8 @@ public class IOWriter {
             printWriter.println(member.getId());
             printWriter.println(member.getName());
             printWriter.println(member.getDiscipline());
-            printWriter.println(member.getBirthday().getEditor().getCharacters().toString());
-            printWriter.println(member.getStartDate().getEditor().getCharacters().toString());
+            printWriter.println(member.getBirthday());
+            printWriter.println(member.getStartDate());
             printWriter.println(member.isCompetetive());
             printWriter.println(member.isActive());
             printWriter.println(member.isSenority());

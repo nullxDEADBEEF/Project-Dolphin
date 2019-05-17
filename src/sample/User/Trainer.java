@@ -19,5 +19,7 @@ public class Trainer extends User {
 
     }
 
-
+    public int getClearance() {
+        return clearance;
+    }
 }

@@ -74,8 +74,4 @@ public class MainMenu {
     public Scene getScene() {
         return scene;
     }
-
-    public VBox getLayout() {
-        return layout;
-    }
 }

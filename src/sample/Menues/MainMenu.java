@@ -28,13 +28,12 @@ public class MainMenu {
         exitButton = new Button("Exit");
         viewMembersButton = new Button("View");
 
-
         // Handle button events
         createButton.setOnAction(click ->
                 Controller.setActiveScene(MemberCreation.getInstance().getScene()));
         exitButton.setOnAction(click -> Platform.exit());
         viewMembersButton.setOnAction(click ->
-                Controller.setActiveScene(ViewMember.getInstance().getScene()));
+            Controller.setActiveScene(ViewMember.getInstance().getScene()));
 
         // Give the buttons an upper width limit
         createButton.setMaxWidth(75);

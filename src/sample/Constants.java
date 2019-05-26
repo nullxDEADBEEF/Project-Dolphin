@@ -15,4 +15,7 @@ public class Constants {
             false, true),BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.DEFAULT, new BackgroundSize(WINDOW_WIDTH,
             WINDOW_HEIGHT, false, false, false, true));
+
+    public static final String MEMBER_PATH = "data/members/";
+    public static final String COMPETITION_PATH = "data/competitions/";
 }

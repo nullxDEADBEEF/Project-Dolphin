@@ -1,11 +1,7 @@
 package sample;
 
-import javafx.scene.control.DatePicker;
 import sample.User.Trainer;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Random;
 
 public class Member {
@@ -22,6 +18,8 @@ public class Member {
     private boolean deficit;
     private int balance;
     private Trainer appointedTrainer;
+
+    public Member() {}
 
     public Member(String Name, String Discipline, LocalDate Birthday,
                   LocalDate StartDate, boolean Competitive, boolean Active,
@@ -107,5 +105,27 @@ public class Member {
 
     public Trainer getAppointedTrainer() {
         return appointedTrainer;
+    }
+
+    public void setId(String value) { id = value; }
+
+    public void setName(String value) {
+        name = value;
+    }
+
+    public void setDiscipline(String value) {
+        discipline = value;
+    }
+
+    public void setEmail(String value) {
+        email = value;
+    }
+
+    public void setPhoneNumber(String value) {
+        phoneNumber = value;
+    }
+
+    public void setAppointedTrainer(Trainer value) {
+        appointedTrainer = value;
     }
 }

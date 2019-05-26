@@ -32,9 +32,9 @@ public class ViewMember {
     private Label disciplineLabel;
     private Label birthdayLabel;
     private Label startDateLabel;
-    private Label competetiveLabel;
+    private Label competitiveLabel;
     private Label activeLabel;
-    private Label senorityLabel;
+    private Label seniorityLabel;
     private Label emailAddressLabel;
     private Label phoneNumberLabel;
     private Label deficitLabel;
@@ -52,9 +52,9 @@ public class ViewMember {
         disciplineLabel = new Label();
         birthdayLabel = new Label();
         startDateLabel = new Label();
-        competetiveLabel = new Label();
+        competitiveLabel = new Label();
         activeLabel = new Label();
-        senorityLabel = new Label();
+        seniorityLabel = new Label();
         emailAddressLabel = new Label();
         phoneNumberLabel = new Label();
         deficitLabel = new Label();
@@ -66,9 +66,9 @@ public class ViewMember {
         disciplineLabel.setTextFill(Color.WHITE);
         birthdayLabel.setTextFill(Color.WHITE);
         startDateLabel.setTextFill(Color.WHITE);
-        competetiveLabel.setTextFill(Color.WHITE);
+        competitiveLabel.setTextFill(Color.WHITE);
         activeLabel.setTextFill(Color.WHITE);
-        senorityLabel.setTextFill(Color.WHITE);
+        seniorityLabel.setTextFill(Color.WHITE);
         emailAddressLabel.setTextFill(Color.WHITE);
         phoneNumberLabel.setTextFill(Color.WHITE);
         deficitLabel.setTextFill(Color.WHITE);
@@ -96,9 +96,9 @@ public class ViewMember {
         memberInfoLayout.add(disciplineLabel, 0, 2);
         memberInfoLayout.add(birthdayLabel, 0, 3);
         memberInfoLayout.add(startDateLabel, 0, 4);
-        memberInfoLayout.add(competetiveLabel, 0, 5);
+        memberInfoLayout.add(competitiveLabel, 0, 5);
         memberInfoLayout.add(activeLabel, 0, 6);
-        memberInfoLayout.add(senorityLabel, 0, 7);
+        memberInfoLayout.add(seniorityLabel, 0, 7);
         memberInfoLayout.add(emailAddressLabel, 0, 8);
         memberInfoLayout.add(phoneNumberLabel, 0, 9);
         memberInfoLayout.add(deficitLabel, 0, 10);
@@ -111,15 +111,21 @@ public class ViewMember {
         layout.add(deleteButton, 1, 1);
         layout.add(backButton, 0, 4);
 
+
         backButton.setOnAction(click ->
                 Controller.setActiveScene(MainMenu.getInstance().getScene()));
+
         deleteButton.setOnAction(click -> {
-            String fileName =
-                    membersListView.getSelectionModel().getSelectedItem().getId();
+
+            Member fileName =
+                    membersListView.getSelectionModel().getSelectedItem();
             IOWriter.deleteFile(fileName);
 
             MemberList.members.remove(membersListView.getSelectionModel().getSelectedItem());
         });
+
+        editButton.setOnAction(click ->
+                Controller.setActiveScene(EditMember.getInstance().getScene()));
 
         memberInfobackButton.setOnAction(click -> Controller.setActiveScene(scene));
 
@@ -142,9 +148,9 @@ public class ViewMember {
         disciplineLabel.setText("Discipline: " + member.getDiscipline());
         birthdayLabel.setText("Birthday: " + member.getBirthday());
         startDateLabel.setText("Start date: " + member.getStartDate());
-        competetiveLabel.setText("Competetive: " + member.isCompetetive());
+        competitiveLabel.setText("Competetive: " + member.isCompetetive());
         activeLabel.setText("Active: " + member.isActive());
-        senorityLabel.setText("Senority: " + member.isSenority());
+        seniorityLabel.setText("Senority: " + member.isSenority());
         emailAddressLabel.setText("Email: " + member.getEmail());
         phoneNumberLabel.setText("Phone: " + member.getPhoneNumber());
         deficitLabel.setText("Deficit: " + member.isDeficit());

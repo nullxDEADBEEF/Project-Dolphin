@@ -1,20 +1,18 @@
 package sample.IO;
 
+import sample.Constants;
 import sample.Member;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class IOWriter {
     public static void writeFile(Member member) {
         try {
             FileWriter writer =
-                    new FileWriter("data/" + member.getId());
+                    new FileWriter(Constants.MEMBER_PATH + member.getId());
             PrintWriter printWriter = new PrintWriter(writer);
 
             printWriter.println(member.getId());
@@ -37,8 +35,14 @@ public class IOWriter {
         }
     }
 
-    public static void deleteFile(String fileName) {
-        File file = new File("data/" + fileName);
+    public static void deleteFile(Member member) {
+        File file = new File(Constants.MEMBER_PATH + member.getId());
+        System.out.println(file);
+        file.delete();
+    }
+
+    public static void deleteCompetitionFile(String fileName) {
+        File file = new File(Constants.COMPETITION_PATH + fileName);
         file.delete();
     }
 }

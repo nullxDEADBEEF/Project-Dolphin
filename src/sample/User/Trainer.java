@@ -8,6 +8,12 @@ public class Trainer extends User {
         clearance = Clearance;
     }
 
+    public Trainer() {}
+
+    public String getName() {
+        return name;
+    }
+
     public String toString() {
         return name;
     }

@@ -14,7 +14,9 @@ import sample.MemberList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
-public class MemberCreation {
+// TODO: Read in file and put the data into the text fields
+// write the changes to the file
+public class EditMember {
     private GridPane layout;
     private Scene scene;
 
@@ -48,9 +50,9 @@ public class MemberCreation {
     ToggleGroup membershipToggleGroup;
     ToggleGroup swimTypeToggleGroup;
 
-    private static MemberCreation instance = null;
+    private static EditMember instance = null;
 
-    private MemberCreation() {
+    private EditMember() {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
@@ -82,6 +84,8 @@ public class MemberCreation {
         disciplineComboBox.getItems().add("Breaststroke");
         disciplineComboBox.getItems().add("Backstroke");
 
+        TrainerList trainerList = new TrainerList();
+
         birthdayDatePicker = new DatePicker();
         startDatePicker = new DatePicker();
 
@@ -90,7 +94,7 @@ public class MemberCreation {
         balanceTextField = new TextField();
         trainerComboBox = new ComboBox();
         trainerComboBox.setPromptText("Select trainer");
-        for (Trainer trainer : TrainerList.getTrainers()) {
+        for (Trainer trainer : trainerList.getTrainers()) {
             trainerComboBox.getItems().add(trainer);
         }
 
@@ -117,6 +121,13 @@ public class MemberCreation {
         swimTypeToggleGroup = new ToggleGroup();
         competitiveSwimmerRadioButton.setToggleGroup(swimTypeToggleGroup);
         exerciseSwimmerRadioButton.setToggleGroup(swimTypeToggleGroup);
+
+        // Disable the radio buttons, since we dont want to be able to
+        // change their membership
+        activeMembershipRadioButton.setDisable(true);
+        passiveMembershipRadioButton.setDisable(true);
+        competitiveSwimmerRadioButton.setDisable(true);
+        exerciseSwimmerRadioButton.setDisable(true);
 
         layout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
 
@@ -151,26 +162,22 @@ public class MemberCreation {
         layout.add(finishButton, 0, 12);
         layout.add(backButton, 1, 12);
 
-        finishButton.setOnAction(click -> {
-            Alert memberCreatedAlert  =
-                    new Alert(Alert.AlertType.CONFIRMATION);
-            memberCreatedAlert.setContentText("Member created!");
 
+
+        finishButton.setOnAction(click -> {
             boolean activeMembership;
             if (membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton) {
                 activeMembership = true;
             } else {
                 activeMembership = false;
             }
+
             boolean competitiveSwimmer;
             if (swimTypeToggleGroup.getSelectedToggle() == competitiveSwimmerRadioButton) {
                 competitiveSwimmer = true;
             } else {
                 competitiveSwimmer = false;
             }
-
-            Trainer trainer =
-                    trainerComboBox.getSelectionModel().getSelectedItem();
 
             Member member =
                     new Member(firstNameTextField.getText()
@@ -182,41 +189,19 @@ public class MemberCreation {
                             emailAddressTextField.getText(),
                             phoneNumberTextField.getText(),
                             Integer.parseInt(balanceTextField.getText()),
-                            trainer);
+                            trainerComboBox.getSelectionModel().getSelectedItem());
 
             IOWriter.writeFile(member);
-            clearFields();
             MemberList.members.add(member);
-            memberCreatedAlert.showAndWait();
         });
 
-        backButton.setOnAction(click -> {
-                Controller.setActiveScene(MainMenu.getInstance().getScene());
-                clearFields();
-        });
+        backButton.setOnAction(click ->
+            Controller.setActiveScene(ViewMember.getInstance().getScene()));
     }
 
-    private void clearFields() {
-        firstNameTextField.clear();
-        lastNameTextField.clear();
-        emailAddressTextField.clear();
-        phoneNumberTextField.clear();
-        balanceTextField.clear();
-        trainerComboBox.getSelectionModel().clearSelection();
-        disciplineComboBox.getSelectionModel().clearSelection();
-
-        birthdayDatePicker.getEditor().clear();
-        startDatePicker.getEditor().clear();
-
-        activeMembershipRadioButton.setSelected(false);
-        passiveMembershipRadioButton.setSelected(false);
-        competitiveSwimmerRadioButton.setSelected(false);
-        exerciseSwimmerRadioButton.setSelected(false);
-    }
-
-    public static MemberCreation getInstance() {
+    public static EditMember getInstance() {
         if (instance == null) {
-            instance = new MemberCreation();
+            instance = new EditMember();
         }
 
         return instance;

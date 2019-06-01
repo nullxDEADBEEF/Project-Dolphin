@@ -1,7 +1,7 @@
 package sample.User;
 
 public class Cashier extends User {
-    public void idGenerator() {
+    public void login(String username, String password) {
 
     }
 

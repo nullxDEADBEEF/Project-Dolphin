@@ -8,20 +8,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import sample.Constants;
 import sample.Controller;
+import sample.IO.IOReader;
 import sample.IO.IOWriter;
 import sample.Member;
 import sample.MemberList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
-// TODO: Read in file and put the data into the text fields
-// write the changes to the file
+import java.util.Arrays;
+
 public class EditMember {
     private GridPane layout;
     private Scene scene;
 
     private Label nameLabel;
-    private Label lastNameLabel;
     private Label disciplineLabel;
     private Label birthdayLabel;
     private Label startDateLabel;
@@ -30,8 +30,7 @@ public class EditMember {
     private Label balanceLabel;
     private Label trainerLabel;
 
-    private TextField firstNameTextField;
-    private TextField lastNameTextField;
+    private TextField nameTextField;
     private ComboBox disciplineComboBox;
     private DatePicker birthdayDatePicker;
     private DatePicker startDatePicker;
@@ -47,8 +46,11 @@ public class EditMember {
     private RadioButton competitiveSwimmerRadioButton;
     private RadioButton exerciseSwimmerRadioButton;
 
-    ToggleGroup membershipToggleGroup;
-    ToggleGroup swimTypeToggleGroup;
+    private static Member selectedMember;
+    private Member memberToEdit;
+
+    private ToggleGroup membershipToggleGroup;
+    private ToggleGroup swimTypeToggleGroup;
 
     private static EditMember instance = null;
 
@@ -56,8 +58,7 @@ public class EditMember {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        nameLabel = new Label("First name");
-        lastNameLabel = new Label("Last name");
+        nameLabel = new Label("Name");
         disciplineLabel = new Label("Discipline");
         birthdayLabel = new Label("Birthday");
         startDateLabel = new Label("Start date");
@@ -67,7 +68,6 @@ public class EditMember {
         trainerLabel = new Label("Trainer");
 
         nameLabel.setTextFill(Color.WHITE);
-        lastNameLabel.setTextFill(Color.WHITE);
         disciplineLabel.setTextFill(Color.WHITE);
         birthdayLabel.setTextFill(Color.WHITE);
         startDateLabel.setTextFill(Color.WHITE);
@@ -76,15 +76,12 @@ public class EditMember {
         balanceLabel.setTextFill(Color.WHITE);
         trainerLabel.setTextFill(Color.WHITE);
 
-        firstNameTextField = new TextField();
-        lastNameTextField = new TextField();
+        nameTextField = new TextField();
         disciplineComboBox = new ComboBox();
         disciplineComboBox.setPromptText("Select discipline");
         disciplineComboBox.getItems().add("Freestyle");
         disciplineComboBox.getItems().add("Breaststroke");
         disciplineComboBox.getItems().add("Backstroke");
-
-        TrainerList trainerList = new TrainerList();
 
         birthdayDatePicker = new DatePicker();
         startDatePicker = new DatePicker();
@@ -94,7 +91,8 @@ public class EditMember {
         balanceTextField = new TextField();
         trainerComboBox = new ComboBox();
         trainerComboBox.setPromptText("Select trainer");
-        for (Trainer trainer : trainerList.getTrainers()) {
+
+        for (Trainer trainer : TrainerList.getTrainers()) {
             trainerComboBox.getItems().add(trainer);
         }
 
@@ -136,24 +134,22 @@ public class EditMember {
         layout.setHgap(5.0);
 
         layout.add(nameLabel, 0, 0);
-        layout.add(lastNameLabel, 0, 1);
-        layout.add(disciplineLabel, 0, 2);
-        layout.add(birthdayLabel, 0, 3);
-        layout.add(startDateLabel, 0, 4);
-        layout.add(emailAddressLabel, 0, 5);
-        layout.add(phoneNumberLabel, 0, 6);
-        layout.add(balanceLabel, 0, 7);
-        layout.add(trainerLabel, 0, 8);
+        layout.add(disciplineLabel, 0, 1);
+        layout.add(birthdayLabel, 0, 2);
+        layout.add(startDateLabel, 0, 3);
+        layout.add(emailAddressLabel, 0, 4);
+        layout.add(phoneNumberLabel, 0, 5);
+        layout.add(balanceLabel, 0, 6);
+        layout.add(trainerLabel, 0, 7);
 
-        layout.add(firstNameTextField, 1, 0);
-        layout.add(lastNameTextField, 1, 1);
-        layout.add(disciplineComboBox, 1, 2);
-        layout.add(birthdayDatePicker, 1, 3);
-        layout.add(startDatePicker, 1, 4);
-        layout.add(emailAddressTextField, 1, 5);
-        layout.add(phoneNumberTextField, 1, 6);
-        layout.add(balanceTextField, 1, 7);
-        layout.add(trainerComboBox, 1, 8);
+        layout.add(nameTextField, 1, 0);
+        layout.add(disciplineComboBox, 1, 1);
+        layout.add(birthdayDatePicker, 1, 2);
+        layout.add(startDatePicker, 1, 3);
+        layout.add(emailAddressTextField, 1, 4);
+        layout.add(phoneNumberTextField, 1, 5);
+        layout.add(balanceTextField, 1, 6);
+        layout.add(trainerComboBox, 1, 7);
 
         layout.add(activeMembershipRadioButton, 0, 10);
         layout.add(passiveMembershipRadioButton, 1, 10);
@@ -161,8 +157,6 @@ public class EditMember {
         layout.add(exerciseSwimmerRadioButton, 1, 11);
         layout.add(finishButton, 0, 12);
         layout.add(backButton, 1, 12);
-
-
 
         finishButton.setOnAction(click -> {
             boolean activeMembership;
@@ -180,8 +174,7 @@ public class EditMember {
             }
 
             Member member =
-                    new Member(firstNameTextField.getText()
-                            + " " + lastNameTextField.getText(),
+                    new Member(nameTextField.getText(),
                             disciplineComboBox.getValue().toString(),
                             birthdayDatePicker.getValue(), startDatePicker.getValue(),
                             competitiveSwimmer,
@@ -191,12 +184,71 @@ public class EditMember {
                             Integer.parseInt(balanceTextField.getText()),
                             trainerComboBox.getSelectionModel().getSelectedItem());
 
+            // NOTE: we set the member id here so that we get the correct id
+            // therefore writing to the correct file
+            member.setId(memberToEdit.getId());
             IOWriter.writeFile(member);
+
+            // Remove the old data in the list view
+            Member selectedListViewMember =
+                    ViewMember.getInstance().getMembersListView().getSelectionModel().getSelectedItem();
+            MemberList.members.remove(selectedListViewMember);
+
+            // Add the new data in the list view
             MemberList.members.add(member);
+
+            // Sort the list, using natural ordering
+            MemberList.members.sorted();
+
+            clearFields();
         });
 
-        backButton.setOnAction(click ->
-            Controller.setActiveScene(ViewMember.getInstance().getScene()));
+        backButton.setOnAction(click -> {
+            ViewMember.getInstance().getMembersListView().refresh();
+            clearFields();
+            Controller.setActiveScene(ViewMember.getInstance().getScene());
+        });
+    }
+
+    private void clearFields() {
+        nameTextField.clear();
+        emailAddressTextField.clear();
+        phoneNumberTextField.clear();
+        balanceTextField.clear();
+        trainerComboBox.getSelectionModel().clearSelection();
+        disciplineComboBox.getSelectionModel().clearSelection();
+
+        birthdayDatePicker.getEditor().clear();
+        startDatePicker.getEditor().clear();
+    }
+
+    public void fillMemberData() {
+        memberToEdit =
+                IOReader.readMemberFile(Constants.MEMBER_PATH + selectedMember.getId());
+
+        // Find discipline
+        for (int i = 0; i < disciplineComboBox.getItems().size(); i++) {
+            if (disciplineComboBox.getItems().get(i).toString().equalsIgnoreCase(memberToEdit.getDiscipline())) {
+                disciplineComboBox.getSelectionModel().select(i);
+                break;
+            }
+        }
+
+        // Find trainer
+        for (int i = 0; i < TrainerList.getTrainers().size(); i++) {
+            if (TrainerList.getTrainers().get(i) == memberToEdit.getAppointedTrainer()) {
+                trainerComboBox.getSelectionModel().select(i);
+                break;
+            }
+        }
+
+        // Fill in the rest of the data
+        nameTextField.setText(memberToEdit.getName());
+        birthdayDatePicker.getEditor().setText(memberToEdit.getBirthday().toString());
+        startDatePicker.getEditor().setText(memberToEdit.getStartDate().toString());
+        emailAddressTextField.setText(memberToEdit.getEmail());
+        phoneNumberTextField.setText(memberToEdit.getPhoneNumber());
+        balanceTextField.setText(String.valueOf(memberToEdit.getBalance()));
     }
 
     public static EditMember getInstance() {
@@ -205,6 +257,13 @@ public class EditMember {
         }
 
         return instance;
+    }
+
+    // NOTE: we make it static since the constructor will be run first
+    // therefore giving a null exception before we can set the selected member
+    // to edit from
+    public static void setSelectedMember(Member member) {
+        selectedMember = member;
     }
 
     public Scene getScene() { return scene; }

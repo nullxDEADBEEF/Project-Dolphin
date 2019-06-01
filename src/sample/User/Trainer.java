@@ -18,7 +18,8 @@ public class Trainer extends User {
         return name;
     }
 
-    public void idGenerator() {
+    public void login(String username, String passsword) {
+
     }
 
     public void setClearance(int clearanceLevel) {

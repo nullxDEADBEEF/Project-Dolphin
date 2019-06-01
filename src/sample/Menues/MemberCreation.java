@@ -19,7 +19,6 @@ public class MemberCreation {
     private Scene scene;
 
     private Label nameLabel;
-    private Label lastNameLabel;
     private Label disciplineLabel;
     private Label birthdayLabel;
     private Label startDateLabel;
@@ -28,8 +27,7 @@ public class MemberCreation {
     private Label balanceLabel;
     private Label trainerLabel;
 
-    private TextField firstNameTextField;
-    private TextField lastNameTextField;
+    private TextField nameTextField;
     private ComboBox disciplineComboBox;
     private DatePicker birthdayDatePicker;
     private DatePicker startDatePicker;
@@ -54,8 +52,7 @@ public class MemberCreation {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        nameLabel = new Label("First name");
-        lastNameLabel = new Label("Last name");
+        nameLabel = new Label("Name");
         disciplineLabel = new Label("Discipline");
         birthdayLabel = new Label("Birthday");
         startDateLabel = new Label("Start date");
@@ -65,7 +62,6 @@ public class MemberCreation {
         trainerLabel = new Label("Trainer");
 
         nameLabel.setTextFill(Color.WHITE);
-        lastNameLabel.setTextFill(Color.WHITE);
         disciplineLabel.setTextFill(Color.WHITE);
         birthdayLabel.setTextFill(Color.WHITE);
         startDateLabel.setTextFill(Color.WHITE);
@@ -74,8 +70,7 @@ public class MemberCreation {
         balanceLabel.setTextFill(Color.WHITE);
         trainerLabel.setTextFill(Color.WHITE);
 
-        firstNameTextField = new TextField();
-        lastNameTextField = new TextField();
+        nameTextField = new TextField();
         disciplineComboBox = new ComboBox();
         disciplineComboBox.setPromptText("Select discipline");
         disciplineComboBox.getItems().add("Freestyle");
@@ -125,24 +120,22 @@ public class MemberCreation {
         layout.setHgap(5.0);
 
         layout.add(nameLabel, 0, 0);
-        layout.add(lastNameLabel, 0, 1);
-        layout.add(disciplineLabel, 0, 2);
-        layout.add(birthdayLabel, 0, 3);
-        layout.add(startDateLabel, 0, 4);
-        layout.add(emailAddressLabel, 0, 5);
-        layout.add(phoneNumberLabel, 0, 6);
-        layout.add(balanceLabel, 0, 7);
-        layout.add(trainerLabel, 0, 8);
+        layout.add(disciplineLabel, 0, 1);
+        layout.add(birthdayLabel, 0, 2);
+        layout.add(startDateLabel, 0, 3);
+        layout.add(emailAddressLabel, 0, 4);
+        layout.add(phoneNumberLabel, 0, 5);
+        layout.add(balanceLabel, 0, 6);
+        layout.add(trainerLabel, 0, 7);
 
-        layout.add(firstNameTextField, 1, 0);
-        layout.add(lastNameTextField, 1, 1);
-        layout.add(disciplineComboBox, 1, 2);
-        layout.add(birthdayDatePicker, 1, 3);
-        layout.add(startDatePicker, 1, 4);
-        layout.add(emailAddressTextField, 1, 5);
-        layout.add(phoneNumberTextField, 1, 6);
-        layout.add(balanceTextField, 1, 7);
-        layout.add(trainerComboBox, 1, 8);
+        layout.add(nameTextField, 1, 0);
+        layout.add(disciplineComboBox, 1, 1);
+        layout.add(birthdayDatePicker, 1, 2);
+        layout.add(startDatePicker, 1, 3);
+        layout.add(emailAddressTextField, 1, 4);
+        layout.add(phoneNumberTextField, 1, 5);
+        layout.add(balanceTextField, 1, 6);
+        layout.add(trainerComboBox, 1, 7);
 
         layout.add(activeMembershipRadioButton, 0, 10);
         layout.add(passiveMembershipRadioButton, 1, 10);
@@ -173,8 +166,7 @@ public class MemberCreation {
                     trainerComboBox.getSelectionModel().getSelectedItem();
 
             Member member =
-                    new Member(firstNameTextField.getText()
-                            + " " + lastNameTextField.getText(),
+                    new Member(nameTextField.getText(),
                             disciplineComboBox.getValue().toString(),
                             birthdayDatePicker.getValue(), startDatePicker.getValue(),
                             competitiveSwimmer,
@@ -184,6 +176,8 @@ public class MemberCreation {
                             Integer.parseInt(balanceTextField.getText()),
                             trainer);
 
+            member.generateId();
+
             IOWriter.writeFile(member);
             clearFields();
             MemberList.members.add(member);
@@ -191,14 +185,13 @@ public class MemberCreation {
         });
 
         backButton.setOnAction(click -> {
-                Controller.setActiveScene(MainMenu.getInstance().getScene());
-                clearFields();
+            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            clearFields();
         });
     }
 
     private void clearFields() {
-        firstNameTextField.clear();
-        lastNameTextField.clear();
+        nameTextField.clear();
         emailAddressTextField.clear();
         phoneNumberTextField.clear();
         balanceTextField.clear();

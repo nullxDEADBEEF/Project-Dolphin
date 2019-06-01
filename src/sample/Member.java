@@ -12,12 +12,14 @@ public class Member {
     private LocalDate startDate;
     private boolean competitive;
     private boolean active;
-    private boolean senority;
+    private boolean seniority;
     private String email;
     private String phoneNumber;
     private boolean deficit;
     private int balance;
     private Trainer appointedTrainer;
+
+    Random random = new Random();
 
     public Member() {}
 
@@ -25,9 +27,6 @@ public class Member {
                   LocalDate StartDate, boolean Competitive, boolean Active,
                   String Email, String PhoneNumber, int Balance, Trainer AppointedTrainer) {
 
-        Random random = new Random();
-
-        id = String.valueOf(random.nextInt());
         name = Name;
         discipline = Discipline;
         birthday = Birthday;
@@ -42,13 +41,17 @@ public class Member {
         int age = LocalDate.now().getYear() - birthday.getYear();
 
         if (age > 18) {
-            senority = true;
+            seniority = true;
         } else {
-            senority = false;
+            seniority = false;
         }
 
         // NOTE: assume that there is no deficit upon creation of a member
         deficit = false;
+    }
+
+    public void generateId() {
+        id = String.valueOf(random.nextInt());
     }
 
     public String toString() {
@@ -67,9 +70,7 @@ public class Member {
         return discipline;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
+    public LocalDate getBirthday() { return birthday; }
 
     public LocalDate getStartDate() {
         return startDate;
@@ -83,8 +84,8 @@ public class Member {
         return active;
     }
 
-    public boolean isSenority() {
-        return senority;
+    public boolean isSeniority() {
+        return seniority;
     }
 
     public String getEmail() {

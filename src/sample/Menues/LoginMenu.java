@@ -1,7 +1,6 @@
 package sample.Menues;
 
 import javafx.application.Platform;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

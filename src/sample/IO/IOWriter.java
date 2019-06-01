@@ -22,7 +22,7 @@ public class IOWriter {
             printWriter.println(member.getStartDate());
             printWriter.println(member.isCompetetive());
             printWriter.println(member.isActive());
-            printWriter.println(member.isSenority());
+            printWriter.println(member.isSeniority());
             printWriter.println(member.getEmail());
             printWriter.println(member.getPhoneNumber());
             printWriter.println(member.isDeficit());

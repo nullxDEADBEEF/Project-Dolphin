@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class IOReader {
-
     public static void loadMembers() {
         File directory = new File(Constants.MEMBER_PATH);
         File[] files = directory.listFiles();

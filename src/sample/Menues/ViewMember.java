@@ -111,6 +111,8 @@ public class ViewMember {
         layout.add(deleteButton, 1, 1);
         layout.add(backButton, 0, 4);
 
+        membersListView.setItems(MemberList.members);
+
 
         backButton.setOnAction(click ->
                 Controller.setActiveScene(MainMenu.getInstance().getScene()));
@@ -124,8 +126,11 @@ public class ViewMember {
             MemberList.members.remove(membersListView.getSelectionModel().getSelectedItem());
         });
 
-        editButton.setOnAction(click ->
-                Controller.setActiveScene(EditMember.getInstance().getScene()));
+        editButton.setOnAction(click -> {
+            EditMember.setSelectedMember(membersListView.getSelectionModel().getSelectedItem());
+            EditMember.getInstance().fillMemberData();
+            Controller.setActiveScene(EditMember.getInstance().getScene());
+        });
 
         memberInfobackButton.setOnAction(click -> Controller.setActiveScene(scene));
 
@@ -138,8 +143,6 @@ public class ViewMember {
                 }
             }
         });
-
-        membersListView.setItems(MemberList.members);
     }
 
     private void displayMemberInfo(Member member) {
@@ -150,7 +153,7 @@ public class ViewMember {
         startDateLabel.setText("Start date: " + member.getStartDate());
         competitiveLabel.setText("Competetive: " + member.isCompetetive());
         activeLabel.setText("Active: " + member.isActive());
-        seniorityLabel.setText("Senority: " + member.isSenority());
+        seniorityLabel.setText("Senority: " + member.isSeniority());
         emailAddressLabel.setText("Email: " + member.getEmail());
         phoneNumberLabel.setText("Phone: " + member.getPhoneNumber());
         deficitLabel.setText("Deficit: " + member.isDeficit());
@@ -164,6 +167,10 @@ public class ViewMember {
         }
 
         return instance;
+    }
+
+    public ListView<Member> getMembersListView() {
+        return membersListView;
     }
 
     public Scene getScene() { return scene; }

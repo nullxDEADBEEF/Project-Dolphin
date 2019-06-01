@@ -1,7 +1,7 @@
 package sample.User;
 
 public class Manager extends User {
-    public void idGenerator() {
+    public void login(String username, String password) {
 
     }
 

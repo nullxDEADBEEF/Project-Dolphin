@@ -15,20 +15,9 @@ import sample.MemberList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
-import java.util.Arrays;
-
 public class EditMember {
     private GridPane layout;
     private Scene scene;
-
-    private Label nameLabel;
-    private Label disciplineLabel;
-    private Label birthdayLabel;
-    private Label startDateLabel;
-    private Label emailAddressLabel;
-    private Label phoneNumberLabel;
-    private Label balanceLabel;
-    private Label trainerLabel;
 
     private TextField nameTextField;
     private ComboBox disciplineComboBox;
@@ -55,17 +44,18 @@ public class EditMember {
     private static EditMember instance = null;
 
     private EditMember() {
+
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        nameLabel = new Label("Name");
-        disciplineLabel = new Label("Discipline");
-        birthdayLabel = new Label("Birthday");
-        startDateLabel = new Label("Start date");
-        emailAddressLabel = new Label("E-mail address");
-        phoneNumberLabel = new Label("Phone number");
-        balanceLabel = new Label("Balance");
-        trainerLabel = new Label("Trainer");
+        Label nameLabel = new Label("Name");
+        Label disciplineLabel = new Label("Discipline");
+        Label birthdayLabel = new Label("Birthday");
+        Label startDateLabel = new Label("Start date");
+        Label emailAddressLabel = new Label("E-mail address");
+        Label phoneNumberLabel = new Label("Phone number");
+        Label balanceLabel = new Label("Balance");
+        Label trainerLabel = new Label("Trainer");
 
         nameLabel.setTextFill(Color.WHITE);
         disciplineLabel.setTextFill(Color.WHITE);
@@ -159,6 +149,9 @@ public class EditMember {
         layout.add(backButton, 1, 12);
 
         finishButton.setOnAction(click -> {
+            Alert memberEditedAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            memberEditedAlert.setContentText("Member edited!");
+
             boolean activeMembership;
             if (membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton) {
                 activeMembership = true;
@@ -189,18 +182,22 @@ public class EditMember {
             member.setId(memberToEdit.getId());
             IOWriter.writeFile(member);
 
-            // Remove the old data in the list view
-            Member selectedListViewMember =
-                    ViewMember.getInstance().getMembersListView().getSelectionModel().getSelectedItem();
-            MemberList.members.remove(selectedListViewMember);
+            if (member.getBalance() <= 0) {
+                // Remove the old data in the list view
+                MemberList.members.remove(selectedMember);
 
-            // Add the new data in the list view
-            MemberList.members.add(member);
+                // Add the new data in the list view
+                MemberList.members.add(member);
+            } else if (member.getBalance() > 0) {
+                MemberList.members.remove(selectedMember);
+                MemberList.membersInDeficit.add(member);
+            }
 
             // Sort the list, using natural ordering
-            MemberList.members.sorted();
+            ViewMember.getInstance().getMembersListView().setItems(MemberList.members.sorted());
 
             clearFields();
+            memberEditedAlert.showAndWait();
         });
 
         backButton.setOnAction(click -> {

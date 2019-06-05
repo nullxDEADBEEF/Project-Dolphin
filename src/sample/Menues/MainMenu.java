@@ -11,34 +11,37 @@ import sample.Constants;
 import sample.Controller;
 
 public class MainMenu {
-    private VBox layout;
     private Scene scene;
-    private Button createButton;
-    private Button exitButton;
-    private Button viewMembersButton;
 
     private static MainMenu instance = null;
 
-
     private MainMenu() {
-        layout = new VBox();
+        VBox layout = new VBox();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        createButton = new Button("Create");
-        exitButton = new Button("Exit");
-        viewMembersButton = new Button("View");
+        Button createButton = new Button("Create Member");
+        Button exitButton = new Button("Exit");
+        Button viewMembersButton = new Button("View Members");
+        Button viewDeficitButton = new Button("View Deficit");
 
         // Handle button events
         createButton.setOnAction(click ->
                 Controller.setActiveScene(MemberCreation.getInstance().getScene()));
+
         exitButton.setOnAction(click -> Platform.exit());
+
         viewMembersButton.setOnAction(click ->
             Controller.setActiveScene(ViewMember.getInstance().getScene()));
 
+        viewDeficitButton.setOnAction(click -> {
+            Controller.setActiveScene(DeficitMembers.getInstance().getScene());
+        });
+
         // Give the buttons an upper width limit
-        createButton.setMaxWidth(75);
-        viewMembersButton.setMaxWidth(75);
-        exitButton.setMaxWidth(75);
+        createButton.setMaxWidth(100);
+        viewMembersButton.setMaxWidth(100);
+        exitButton.setMaxWidth(100);
+        viewDeficitButton.setMaxWidth(100);
 
         // Set background
         layout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
@@ -59,7 +62,8 @@ public class MainMenu {
         GridPane.setConstraints(exitButton, 1, 2);
         GridPane.setHalignment(exitButton, HPos.CENTER);
 
-        layout.getChildren().addAll(createButton, viewMembersButton, exitButton);
+        layout.getChildren().addAll(createButton, viewMembersButton,
+                viewDeficitButton, exitButton);
     }
 
     public static MainMenu getInstance() {

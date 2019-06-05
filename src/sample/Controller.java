@@ -11,13 +11,13 @@ public class Controller {
     private LoginMenu loginMenu;
     private MainMenu mainMenu;
     private static Scene activeScene;
-    private static Stage Stage;
+    private static Stage stage;
 
     public Controller(Stage stage) {
         TrainerList.loadTrainers();
         IOReader.loadMembers();
 
-        Stage = stage;
+        this.stage = stage;
         mainMenu = MainMenu.getInstance();
         loginMenu = LoginMenu.getInstance();
 
@@ -27,8 +27,13 @@ public class Controller {
     public static Scene getActiveScene() {
         return activeScene;
     }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
     public static void setActiveScene(Scene newScene) {
         activeScene = newScene;
-        Stage.setScene(activeScene);
+        stage.setScene(activeScene);
     }
 }

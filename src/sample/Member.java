@@ -54,6 +54,14 @@ public class Member {
         id = String.valueOf(random.nextInt());
     }
 
+    public void addToBalance(int amount) {
+        balance -= amount;
+    }
+
+    public void subFromBalance(int amount) {
+        balance += amount;
+    }
+
     public String toString() {
         return name;
     }

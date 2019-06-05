@@ -3,13 +3,9 @@ package sample;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-// TODO: make logins for the different users
-// TODO: make login check
-// TODO: implement creation of competitions (trainer)
-// TODO: implement depositting (cashier)
-// TODO: implement discipline top 5 across all disciplines (trainer)
-// TODO: show people in deficit (cashier)
-// TODO: implemement kontingent(wording) pricing
+// TODO: implement creation of competitions (trainer) (3)
+// TODO: implement discipline top 5 across all disciplines (trainer) (4)
+// TODO: implemement kontingent(wording) pricing (is with number 2)
 public class Main extends Application {
 
     public static void main(String[] args) {

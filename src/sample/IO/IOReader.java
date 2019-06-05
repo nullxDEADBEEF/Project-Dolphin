@@ -1,5 +1,7 @@
 package sample.IO;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import sample.Constants;
 import sample.Member;
 import sample.MemberList;
@@ -12,12 +14,23 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class IOReader {
+    private static ObservableList<Member> memberFiles =
+            FXCollections.observableArrayList();
+
     public static void loadMembers() {
         File directory = new File(Constants.MEMBER_PATH);
         File[] files = directory.listFiles();
 
         for (File file : files) {
-            MemberList.members.add(readMemberFile(file.toString()));
+            memberFiles.add(readMemberFile(file.toString()));
+        }
+
+        for (Member member : memberFiles) {
+            if (member.getBalance() > 0) {
+                MemberList.membersInDeficit.add(member);
+            } else {
+                MemberList.members.add(member);
+            }
         }
     }
 

@@ -18,8 +18,9 @@ public class Member {
     private boolean deficit;
     private int balance;
     private Trainer appointedTrainer;
+    private LocalDate paymentDate;
 
-    Random random = new Random();
+    private Random random = new Random();
 
     public Member() {}
 
@@ -38,16 +39,43 @@ public class Member {
         balance = Balance;
         appointedTrainer = AppointedTrainer;
 
+        paymentDate = startDate;
+
+
+        final int seniorOver65DiscountedPrice =
+                (1600 - (1600 / 100 * 25));
+        final int activeUnder18Price = 1000;
+        final int activeOver18Price = 1600;
+        final int passiveMemberPrice = 500;
+
+
         int age = LocalDate.now().getYear() - birthday.getYear();
 
-        if (age > 18) {
-            seniority = true;
-        } else {
-            seniority = false;
+        seniority = age > 18;
+
+        if (LocalDate.now().equals(paymentDate)) {
+            if (active && seniority && age >= 60) {
+                balance += seniorOver65DiscountedPrice;
+            } else if (active && seniority) {
+                balance += activeOver18Price;
+            } else if (active) {
+                balance += activeUnder18Price;
+            } else {
+                balance += passiveMemberPrice;
+            }
+
+            findNewPaymentDate();
         }
 
-        // NOTE: assume that there is no deficit upon creation of a member
-        deficit = false;
+        setDeficit(balance > 0);
+    }
+
+    // adds a year to the paymentDate, so the price is not added
+    // everytime we start the program
+    private void findNewPaymentDate() {
+        if (LocalDate.now().getYear() == paymentDate.getYear()) {
+            paymentDate = paymentDate.plusYears(1);
+        }
     }
 
     public void generateId() {
@@ -124,6 +152,10 @@ public class Member {
 
     public void setDiscipline(String value) {
         discipline = value;
+    }
+
+    public void setDeficit(boolean value) {
+        deficit = value;
     }
 
     public void setEmail(String value) {

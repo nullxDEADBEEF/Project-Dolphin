@@ -23,6 +23,8 @@ public class MainMenu {
         Button exitButton = new Button("Exit");
         Button viewMembersButton = new Button("View Members");
         Button viewDeficitButton = new Button("View Deficit");
+        Button createCompetitionButton = new Button("Create Competition");
+        Button viewCompetitionButton = new Button("View Competitions");
 
         // Handle button events
         createButton.setOnAction(click ->
@@ -37,11 +39,16 @@ public class MainMenu {
             Controller.setActiveScene(DeficitMembers.getInstance().getScene());
         });
 
+        createCompetitionButton.setOnAction(click ->
+                Controller.setActiveScene(CompetitionCreation.getInstance().getScene()));
+
         // Give the buttons an upper width limit
-        createButton.setMaxWidth(100);
-        viewMembersButton.setMaxWidth(100);
-        exitButton.setMaxWidth(100);
-        viewDeficitButton.setMaxWidth(100);
+        createButton.setMaxWidth(140);
+        viewMembersButton.setMaxWidth(140);
+        exitButton.setMaxWidth(140);
+        viewDeficitButton.setMaxWidth(140);
+        createCompetitionButton.setMaxWidth(140);
+        viewCompetitionButton.setMaxWidth(140);
 
         // Set background
         layout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
@@ -63,7 +70,7 @@ public class MainMenu {
         GridPane.setHalignment(exitButton, HPos.CENTER);
 
         layout.getChildren().addAll(createButton, viewMembersButton,
-                viewDeficitButton, exitButton);
+                viewDeficitButton, createCompetitionButton, viewCompetitionButton, exitButton);
     }
 
     public static MainMenu getInstance() {

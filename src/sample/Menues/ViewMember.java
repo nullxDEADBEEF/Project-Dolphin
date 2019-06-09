@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import sample.Constants;
 import sample.Controller;
-import sample.IO.IOReader;
 import sample.IO.IOWriter;
 import sample.Member;
 import sample.MemberList;
@@ -133,11 +132,13 @@ public class ViewMember {
         layout.add(deleteButton, 1, 2);
         layout.add(backButton, 0, 4);
 
-        membersListView.setItems(MemberList.members);
+        membersListView.setItems(MemberList.members.sorted());
 
 
-        backButton.setOnAction(click ->
-                Controller.setActiveScene(MainMenu.getInstance().getScene()));
+        backButton.setOnAction(click -> {
+            depositPopUp.hide();
+            Controller.setActiveScene(MainMenu.getInstance().getScene());
+        });
 
         deleteButton.setOnAction(click -> {
 
@@ -158,7 +159,7 @@ public class ViewMember {
                 depositPopUp.show(Controller.getStage()));
 
         popUpCancelButton.setOnAction(click -> depositPopUp.hide());
-        popUpOkButton.setOnAction( click -> {
+        popUpOkButton.setOnAction(click -> {
             int amount = Integer.parseInt(popUpAmountTextField.getText());
             membersListView.getSelectionModel().getSelectedItem().addToBalance(amount);
             depositPopUp.hide();
@@ -167,11 +168,12 @@ public class ViewMember {
             IOWriter.writeFile(membersListView.getSelectionModel().getSelectedItem());
 
             if (membersListView.getSelectionModel().getSelectedItem().getBalance() > 0) {
+                membersListView.getSelectionModel().getSelectedItem().setDeficit(true);
                 MemberList.membersInDeficit.add(membersListView.getSelectionModel().getSelectedItem());
                 MemberList.members.remove(MemberList.members.indexOf(membersListView.getSelectionModel().getSelectedItem()));
             }
 
-            membersListView.setItems(MemberList.members);
+            membersListView.setItems(MemberList.members.sorted());
         });
 
         memberInfobackButton.setOnAction(click -> Controller.setActiveScene(scene));
@@ -187,7 +189,7 @@ public class ViewMember {
         });
     }
 
-    public void displayMemberInfo(Member member) {
+    private void displayMemberInfo(Member member) {
         idLabel.setText("ID: " + member.getId());
         nameLabel.setText("Name: " + member.getName());
         disciplineLabel.setText("Discipline: " + member.getDiscipline());

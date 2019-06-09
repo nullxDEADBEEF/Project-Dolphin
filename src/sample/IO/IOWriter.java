@@ -37,7 +37,6 @@ public class IOWriter {
 
     public static void deleteFile(Member member) {
         File file = new File(Constants.MEMBER_PATH + member.getId());
-        System.out.println(file);
         file.delete();
     }
 

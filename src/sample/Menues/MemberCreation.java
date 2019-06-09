@@ -149,18 +149,12 @@ public class MemberCreation {
                     new Alert(Alert.AlertType.CONFIRMATION);
             memberCreatedAlert.setContentText("Member created!");
 
-            boolean activeMembership;
-            if (membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton) {
-                activeMembership = true;
-            } else {
-                activeMembership = false;
-            }
-            boolean competitiveSwimmer;
-            if (swimTypeToggleGroup.getSelectedToggle() == competitiveSwimmerRadioButton) {
-                competitiveSwimmer = true;
-            } else {
-                competitiveSwimmer = false;
-            }
+            boolean activeMembership =
+                    membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton;
+
+            boolean competitiveSwimmer =
+                    swimTypeToggleGroup.getSelectedToggle() == competitiveSwimmerRadioButton;
+
 
             Trainer trainer =
                     trainerComboBox.getSelectionModel().getSelectedItem();
@@ -180,7 +174,13 @@ public class MemberCreation {
 
             IOWriter.writeFile(member);
             clearFields();
-            MemberList.members.add(member);
+
+            if (member.getBalance() > 0) {
+                MemberList.membersInDeficit.add(member);
+            } else {
+                MemberList.members.add(member);
+            }
+
             memberCreatedAlert.showAndWait();
         });
 

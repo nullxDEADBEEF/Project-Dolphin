@@ -58,7 +58,7 @@ public class DeficitMembers {
 
         memberDeficitListView = new ListView<Member>();
         membersInDeficit = MemberList.membersInDeficit;
-        memberDeficitListView.setItems(membersInDeficit);
+        memberDeficitListView.setItems(membersInDeficit.sorted());
 
 
 
@@ -136,8 +136,10 @@ public class DeficitMembers {
         layout.add(depositButton, 0, 1);
         layout.add(backButton, 1, 1);
 
-        backButton.setOnAction(click ->
-                Controller.setActiveScene(MainMenu.getInstance().getScene()));
+        backButton.setOnAction(click -> {
+            depositPopUp.hide();
+            Controller.setActiveScene(MainMenu.getInstance().getScene());
+        });
 
         memberInfoBackButton.setOnAction(click ->
                 Controller.setActiveScene(scene));
@@ -156,11 +158,12 @@ public class DeficitMembers {
             IOWriter.writeFile(memberDeficitListView.getSelectionModel().getSelectedItem());
 
             if (memberDeficitListView.getSelectionModel().getSelectedItem().getBalance() < 0) {
+                memberDeficitListView.getSelectionModel().getSelectedItem().setDeficit(false);
                 MemberList.members.add(memberDeficitListView.getSelectionModel().getSelectedItem());
                 MemberList.membersInDeficit.remove(MemberList.membersInDeficit.indexOf(memberDeficitListView.getSelectionModel().getSelectedItem()));
             }
 
-            memberDeficitListView.setItems(MemberList.membersInDeficit);
+            memberDeficitListView.setItems(MemberList.membersInDeficit.sorted());
         });
 
         memberDeficitListView.setOnMouseClicked(click -> {

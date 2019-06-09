@@ -10,7 +10,7 @@ public class Constants {
     public static final int WINDOW_HEIGHT = 500;
     public static final int WINDOW_WIDTH = 500;
     public static final BackgroundImage BACKGROUND_IMAGE = new BackgroundImage(
-            new Image("file:images/smooth.gif", WINDOW_WIDTH,
+            new Image("file:images/dolphin_pretty.png", WINDOW_WIDTH,
                     WINDOW_HEIGHT,
             false, true),BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.DEFAULT, new BackgroundSize(WINDOW_WIDTH,

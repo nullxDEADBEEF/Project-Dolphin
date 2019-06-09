@@ -9,4 +9,7 @@ public class MemberList {
 
     public static ObservableList<Member> membersInDeficit =
             FXCollections.observableArrayList();
+
+    public static ObservableList<Member> competitiveMembers =
+            FXCollections.observableArrayList();
 }

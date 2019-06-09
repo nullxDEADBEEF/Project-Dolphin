@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 
 // TODO: implement creation of competitions (trainer) (3)
 // TODO: implement discipline top 5 across all disciplines (trainer) (4)
-// TODO: implemement kontingent(wording) pricing (is with number 2)
 public class Main extends Application {
 
     public static void main(String[] args) {

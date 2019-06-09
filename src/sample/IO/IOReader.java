@@ -21,16 +21,24 @@ public class IOReader {
         File directory = new File(Constants.MEMBER_PATH);
         File[] files = directory.listFiles();
 
-        for (File file : files) {
-            memberFiles.add(readMemberFile(file.toString()));
-        }
-
-        for (Member member : memberFiles) {
-            if (member.getBalance() > 0) {
-                MemberList.membersInDeficit.add(member);
-            } else {
-                MemberList.members.add(member);
+        if (files != null) {
+            for (File file : files) {
+                memberFiles.add(readMemberFile(file.toString()));
             }
+
+            for (Member member : memberFiles) {
+                if (member.isCompetetive()) {
+                    MemberList.competitiveMembers.add(member);
+                }
+                if (member.getBalance() > 0) {
+                    MemberList.membersInDeficit.add(member);
+                } else {
+                    MemberList.members.add(member);
+                }
+            }
+        } else {
+            System.out.println("Could not find directory or directory is " +
+                    "empty");
         }
     }
 

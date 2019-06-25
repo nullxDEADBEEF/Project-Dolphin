@@ -6,11 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import sample.Constants;
-import sample.Controller;
+import sample.*;
 import sample.IO.IOWriter;
-import sample.Member;
-import sample.MemberList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
@@ -175,11 +172,17 @@ public class MemberCreation {
             IOWriter.writeFile(member);
             clearFields();
 
+            if (member.isCompetetive() && !member.isDeficit()) {
+                MemberList.competitiveMembers.add(member);
+            }
+
             if (member.getBalance() > 0) {
                 MemberList.membersInDeficit.add(member);
             } else {
                 MemberList.members.add(member);
             }
+
+
 
             memberCreatedAlert.showAndWait();
         });

@@ -9,11 +9,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import sample.Constants;
-import sample.Controller;
+import sample.*;
 import sample.IO.IOWriter;
-import sample.Member;
-import sample.MemberList;
 
 public class ViewMember {
     private GridPane layout;
@@ -141,12 +138,33 @@ public class ViewMember {
         });
 
         deleteButton.setOnAction(click -> {
-
             Member fileName =
                     membersListView.getSelectionModel().getSelectedItem();
+
             IOWriter.deleteFile(fileName);
 
             MemberList.members.remove(membersListView.getSelectionModel().getSelectedItem());
+
+            switch (membersListView.getSelectionModel().getSelectedItem().getDiscipline()) {
+                case "Freestyle":
+                    CompetitorList.freestyleCompetitors.remove(
+                            CompetitorList.freestyleCompetitors
+                                    .indexOf(membersListView.getSelectionModel().getSelectedItem()));
+                    break;
+                case "Backstroke":
+                    CompetitorList.backstrokeCompetitors.remove(
+                            CompetitorList.backstrokeCompetitors
+                                    .indexOf(membersListView.getSelectionModel().getSelectedItem()));
+                    break;
+                case "Breaststroke":
+                    CompetitorList.breaststrokeCompetitors.remove(
+                            CompetitorList.breaststrokeCompetitors
+                                    .indexOf(membersListView.getSelectionModel().getSelectedItem()));
+                    break;
+                default:
+                    System.out.println("Discipline not recognized");
+                    break;
+            }
         });
 
         editButton.setOnAction(click -> {
@@ -159,6 +177,7 @@ public class ViewMember {
                 depositPopUp.show(Controller.getStage()));
 
         popUpCancelButton.setOnAction(click -> depositPopUp.hide());
+
         popUpOkButton.setOnAction(click -> {
             int amount = Integer.parseInt(popUpAmountTextField.getText());
             membersListView.getSelectionModel().getSelectedItem().addToBalance(amount);
@@ -195,7 +214,7 @@ public class ViewMember {
         disciplineLabel.setText("Discipline: " + member.getDiscipline());
         birthdayLabel.setText("Birthday: " + member.getBirthday());
         startDateLabel.setText("Start date: " + member.getStartDate());
-        competitiveLabel.setText("Competetive: " + member.isCompetetive());
+        competitiveLabel.setText("Competitive: " + member.isCompetetive());
         activeLabel.setText("Active: " + member.isActive());
         seniorityLabel.setText("Senority: " + member.isSeniority());
         emailAddressLabel.setText("Email: " + member.getEmail());

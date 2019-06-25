@@ -28,6 +28,15 @@ public class EditMember {
     private TextField balanceTextField;
     private ComboBox<Trainer> trainerComboBox;
 
+    private Label nameLabel;
+    private Label disciplineLabel;
+    private Label birthdayLabel;
+    private Label startDateLabel;
+    private Label emailAddressLabel;
+    private Label phoneNumberLabel;
+    private Label balanceLabel;
+    private Label trainerLabel;
+
     private Button finishButton;
     private Button backButton;
     private RadioButton activeMembershipRadioButton;
@@ -44,18 +53,17 @@ public class EditMember {
     private static EditMember instance = null;
 
     private EditMember() {
-
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        Label nameLabel = new Label("Name");
-        Label disciplineLabel = new Label("Discipline");
-        Label birthdayLabel = new Label("Birthday");
-        Label startDateLabel = new Label("Start date");
-        Label emailAddressLabel = new Label("E-mail address");
-        Label phoneNumberLabel = new Label("Phone number");
-        Label balanceLabel = new Label("Balance");
-        Label trainerLabel = new Label("Trainer");
+        nameLabel = new Label("Name");
+        disciplineLabel = new Label("Discipline");
+        birthdayLabel = new Label("Birthday");
+        startDateLabel = new Label("Start date");
+        emailAddressLabel = new Label("E-mail address");
+        phoneNumberLabel = new Label("Phone number");
+        balanceLabel = new Label("Balance");
+        trainerLabel = new Label("Trainer");
 
         nameLabel.setTextFill(Color.WHITE);
         disciplineLabel.setTextFill(Color.WHITE);
@@ -117,54 +125,22 @@ public class EditMember {
         competitiveSwimmerRadioButton.setDisable(true);
         exerciseSwimmerRadioButton.setDisable(true);
 
-        layout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
-
         layout.setAlignment(Pos.CENTER);
         layout.setVgap(10.0);
         layout.setHgap(5.0);
 
-        layout.add(nameLabel, 0, 0);
-        layout.add(disciplineLabel, 0, 1);
-        layout.add(birthdayLabel, 0, 2);
-        layout.add(startDateLabel, 0, 3);
-        layout.add(emailAddressLabel, 0, 4);
-        layout.add(phoneNumberLabel, 0, 5);
-        layout.add(balanceLabel, 0, 6);
-        layout.add(trainerLabel, 0, 7);
+        setupPageElements();
 
-        layout.add(nameTextField, 1, 0);
-        layout.add(disciplineComboBox, 1, 1);
-        layout.add(birthdayDatePicker, 1, 2);
-        layout.add(startDatePicker, 1, 3);
-        layout.add(emailAddressTextField, 1, 4);
-        layout.add(phoneNumberTextField, 1, 5);
-        layout.add(balanceTextField, 1, 6);
-        layout.add(trainerComboBox, 1, 7);
-
-        layout.add(activeMembershipRadioButton, 0, 10);
-        layout.add(passiveMembershipRadioButton, 1, 10);
-        layout.add(competitiveSwimmerRadioButton, 0, 11);
-        layout.add(exerciseSwimmerRadioButton, 1, 11);
-        layout.add(finishButton, 0, 12);
-        layout.add(backButton, 1, 12);
 
         finishButton.setOnAction(click -> {
             Alert memberEditedAlert = new Alert(Alert.AlertType.CONFIRMATION);
             memberEditedAlert.setContentText("Member edited!");
 
-            boolean activeMembership;
-            if (membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton) {
-                activeMembership = true;
-            } else {
-                activeMembership = false;
-            }
+            boolean activeMembership =
+                    membershipToggleGroup.getSelectedToggle() == activeMembershipRadioButton;
 
-            boolean competitiveSwimmer;
-            if (swimTypeToggleGroup.getSelectedToggle() == competitiveSwimmerRadioButton) {
-                competitiveSwimmer = true;
-            } else {
-                competitiveSwimmer = false;
-            }
+            boolean competitiveSwimmer =
+                    swimTypeToggleGroup.getSelectedToggle() == competitiveSwimmerRadioButton;
 
             Member member =
                     new Member(nameTextField.getText(),
@@ -205,6 +181,35 @@ public class EditMember {
             clearFields();
             Controller.setActiveScene(ViewMember.getInstance().getScene());
         });
+    }
+
+    private void setupPageElements() {
+        layout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
+
+        layout.add(nameLabel, 0, 0);
+        layout.add(disciplineLabel, 0, 1);
+        layout.add(birthdayLabel, 0, 2);
+        layout.add(startDateLabel, 0, 3);
+        layout.add(emailAddressLabel, 0, 4);
+        layout.add(phoneNumberLabel, 0, 5);
+        layout.add(balanceLabel, 0, 6);
+        layout.add(trainerLabel, 0, 7);
+
+        layout.add(nameTextField, 1, 0);
+        layout.add(disciplineComboBox, 1, 1);
+        layout.add(birthdayDatePicker, 1, 2);
+        layout.add(startDatePicker, 1, 3);
+        layout.add(emailAddressTextField, 1, 4);
+        layout.add(phoneNumberTextField, 1, 5);
+        layout.add(balanceTextField, 1, 6);
+        layout.add(trainerComboBox, 1, 7);
+
+        layout.add(activeMembershipRadioButton, 0, 10);
+        layout.add(passiveMembershipRadioButton, 1, 10);
+        layout.add(competitiveSwimmerRadioButton, 0, 11);
+        layout.add(exerciseSwimmerRadioButton, 1, 11);
+        layout.add(finishButton, 0, 12);
+        layout.add(backButton, 1, 12);
     }
 
     private void clearFields() {

@@ -19,11 +19,10 @@ import sample.IO.IOWriter;
 import sample.Member;
 import sample.MemberList;
 
-public class DeficitMembers {
-    private GridPane layout;
-    private Scene scene;
-
+public class DeficitMember {
     private GridPane memberInfoLayout;
+
+    private Scene scene;
     private Scene memberScene;
 
     private Label idLabel;
@@ -40,16 +39,18 @@ public class DeficitMembers {
     private Label balanceLabel;
     private Label trainerLabel;
 
+    private Button memberInfoBackButton;
+
 
     private ListView<Member> memberDeficitListView;
     private ObservableList<Member> membersInDeficit;
 
     private Popup depositPopUp;
 
-    private static DeficitMembers instance = null;
+    private static DeficitMember instance = null;
 
-    private DeficitMembers() {
-        layout = new GridPane();
+    private DeficitMember() {
+        GridPane layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         memberInfoLayout = new GridPane();
@@ -64,7 +65,7 @@ public class DeficitMembers {
 
         Button depositButton = new Button("Deposit");
         Button backButton = new Button("Back");
-        Button memberInfoBackButton = new Button("Back");
+        memberInfoBackButton = new Button("Back");
 
         Button popUpOkButton = new Button("Okay");
         Button popUpCancelButton = new Button("Cancel");
@@ -113,21 +114,7 @@ public class DeficitMembers {
         memberInfoLayout.setAlignment(Pos.CENTER);
         memberInfoLayout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
 
-        memberInfoLayout.add(idLabel, 0, 0);
-        memberInfoLayout.add(nameLabel, 0, 1);
-        memberInfoLayout.add(disciplineLabel, 0, 2);
-        memberInfoLayout.add(birthdayLabel, 0, 3);
-        memberInfoLayout.add(startDateLabel, 0, 4);
-        memberInfoLayout.add(competitiveLabel, 0, 5);
-        memberInfoLayout.add(activeLabel, 0, 6);
-        memberInfoLayout.add(seniorityLabel, 0, 7);
-        memberInfoLayout.add(emailAddressLabel, 0, 8);
-        memberInfoLayout.add(phoneNumberLabel, 0, 9);
-        memberInfoLayout.add(deficitLabel, 0, 10);
-        memberInfoLayout.add(balanceLabel, 0, 11);
-        memberInfoLayout.add(trainerLabel, 0, 12);
-        memberInfoLayout.add(memberInfoBackButton, 0, 13);
-
+        setupMemberInfoPageElements();
 
         layout.setAlignment(Pos.CENTER);
         layout.setBackground(new Background(Constants.BACKGROUND_IMAGE));
@@ -160,7 +147,9 @@ public class DeficitMembers {
             if (memberDeficitListView.getSelectionModel().getSelectedItem().getBalance() < 0) {
                 memberDeficitListView.getSelectionModel().getSelectedItem().setDeficit(false);
                 MemberList.members.add(memberDeficitListView.getSelectionModel().getSelectedItem());
-                MemberList.membersInDeficit.remove(MemberList.membersInDeficit.indexOf(memberDeficitListView.getSelectionModel().getSelectedItem()));
+                MemberList.membersInDeficit.remove(
+                        MemberList.membersInDeficit.indexOf(
+                                memberDeficitListView.getSelectionModel().getSelectedItem()));
             }
 
             memberDeficitListView.setItems(MemberList.membersInDeficit.sorted());
@@ -177,13 +166,30 @@ public class DeficitMembers {
 
     }
 
+    private void setupMemberInfoPageElements() {
+        memberInfoLayout.add(idLabel, 0, 0);
+        memberInfoLayout.add(nameLabel, 0, 1);
+        memberInfoLayout.add(disciplineLabel, 0, 2);
+        memberInfoLayout.add(birthdayLabel, 0, 3);
+        memberInfoLayout.add(startDateLabel, 0, 4);
+        memberInfoLayout.add(competitiveLabel, 0, 5);
+        memberInfoLayout.add(activeLabel, 0, 6);
+        memberInfoLayout.add(seniorityLabel, 0, 7);
+        memberInfoLayout.add(emailAddressLabel, 0, 8);
+        memberInfoLayout.add(phoneNumberLabel, 0, 9);
+        memberInfoLayout.add(deficitLabel, 0, 10);
+        memberInfoLayout.add(balanceLabel, 0, 11);
+        memberInfoLayout.add(trainerLabel, 0, 12);
+        memberInfoLayout.add(memberInfoBackButton, 0, 13);
+    }
+
     private void displayMemberInfo(Member member) {
         idLabel.setText("ID: " + member.getId());
         nameLabel.setText("Name: " + member.getName());
         disciplineLabel.setText("Discipline: " + member.getDiscipline());
         birthdayLabel.setText("Birthday: " + member.getBirthday());
         startDateLabel.setText("Start date: " + member.getStartDate());
-        competitiveLabel.setText("Competetive: " + member.isCompetetive());
+        competitiveLabel.setText("Competitive: " + member.isCompetetive());
         activeLabel.setText("Active: " + member.isActive());
         seniorityLabel.setText("Senority: " + member.isSeniority());
         emailAddressLabel.setText("Email: " + member.getEmail());
@@ -193,13 +199,9 @@ public class DeficitMembers {
         trainerLabel.setText("Trainer: " + member.getAppointedTrainer());
     }
 
-    public ObservableList<Member> getDeficitMembers() {
-        return membersInDeficit;
-    }
-
-    public static DeficitMembers getInstance() {
+    public static DeficitMember getInstance() {
         if (instance == null) {
-            instance = new DeficitMembers();
+            instance = new DeficitMember();
         }
 
         return instance;

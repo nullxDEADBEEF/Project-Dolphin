@@ -3,8 +3,6 @@ package sample;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-// TODO: implement creation of competitions (trainer) (3)
-// TODO: implement discipline top 5 across all disciplines (trainer) (4)
 public class Main extends Application {
 
     public static void main(String[] args) {

@@ -7,6 +7,8 @@ import sample.Menues.LoginMenu;
 import sample.Menues.MainMenu;
 import sample.User.TrainerList;
 
+import java.io.FileNotFoundException;
+
 public class Controller {
     private LoginMenu loginMenu;
     private MainMenu mainMenu;
@@ -14,8 +16,14 @@ public class Controller {
     private static Stage stage;
 
     public Controller(Stage stage) {
-        TrainerList.loadTrainers();
-        IOReader.loadMembers();
+        try {
+            TrainerList.loadTrainers();
+            IOReader.loadMembersFromFile();
+            IOReader.loadMemberTypes();
+            IOReader.loadCompetitionsFromFile();
+        } catch (FileNotFoundException ex) {
+            System.out.println("ERROR: " + ex);
+        }
 
         this.stage = stage;
         mainMenu = MainMenu.getInstance();

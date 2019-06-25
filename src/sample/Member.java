@@ -20,6 +20,14 @@ public class Member {
     private Trainer appointedTrainer;
     private LocalDate paymentDate;
 
+    private final int seniorOver65DiscountedPrice =
+            (1600 - (1600 / 100 * 25));
+    private final int activeUnder18Price = 1000;
+    private final int activeOver18Price = 1600;
+    private final int passiveMemberPrice = 500;
+
+    private int age;
+
     private Random random = new Random();
 
     public Member() {}
@@ -41,18 +49,20 @@ public class Member {
 
         paymentDate = startDate;
 
-
-        final int seniorOver65DiscountedPrice =
-                (1600 - (1600 / 100 * 25));
-        final int activeUnder18Price = 1000;
-        final int activeOver18Price = 1600;
-        final int passiveMemberPrice = 500;
-
-
-        int age = LocalDate.now().getYear() - birthday.getYear();
+        age = LocalDate.now().getYear() - birthday.getYear();
 
         seniority = age > 18;
 
+        determinePayment();
+
+        setDeficit(isBalanceNegative(balance));
+    }
+
+    private boolean isBalanceNegative(int balance) {
+        return balance > 0;
+    }
+
+    private void determinePayment() {
         if (LocalDate.now().equals(paymentDate)) {
             if (active && seniority && age >= 60) {
                 balance += seniorOver65DiscountedPrice;
@@ -66,8 +76,6 @@ public class Member {
 
             findNewPaymentDate();
         }
-
-        setDeficit(balance > 0);
     }
 
     // adds a year to the paymentDate, so the price is not added

@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import sample.Constants;
 import sample.Controller;
 
@@ -22,11 +23,11 @@ public class LoginMenu {
     private TextField usernameTextField;
     private PasswordField passwordTextField;
 
-    private static LoginMenu instance = null;
-
-    private LoginMenu() {
+    public LoginMenu() {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        MainMenu mainMenu = new MainMenu();
 
         usernameLabel = new Label("Username");
         passwordLabel = new Label("Password");
@@ -62,19 +63,13 @@ public class LoginMenu {
         layout.add(exitButton, 1, 2);
 
         // Handle button events
-        loginButton.setOnAction(click ->
-                Controller.setActiveScene(MainMenu.getInstance().getScene()));
+        loginButton.setOnAction(click -> {
+            Constants.CONTROLLER.setActiveScene(mainMenu.getScene());
+        });
+
         exitButton.setOnAction(click -> Platform.exit());
 
         layout.setAlignment(Pos.CENTER);
-    }
-
-    public static LoginMenu getInstance() {
-        if (instance == null) {
-            instance = new LoginMenu();
-        }
-
-        return instance;
     }
 
     public Scene getScene() {

@@ -1,5 +1,6 @@
 package sample;
 
+import sample.Disciplines.Discipline;
 import sample.User.Trainer;
 import java.time.LocalDate;
 import java.util.Random;
@@ -7,7 +8,7 @@ import java.util.Random;
 public class Member {
     private String id;
     private String name;
-    private String discipline;
+    private Discipline discipline;
     private LocalDate birthday;
     private LocalDate startDate;
     private boolean competitive;
@@ -32,12 +33,12 @@ public class Member {
 
     public Member() {}
 
-    public Member(String Name, String Discipline, LocalDate Birthday,
+    public Member(String Name, Discipline _Discipline, LocalDate Birthday,
                   LocalDate StartDate, boolean Competitive, boolean Active,
                   String Email, String PhoneNumber, int Balance, Trainer AppointedTrainer) {
 
         name = Name;
-        discipline = Discipline;
+        discipline = _Discipline;
         birthday = Birthday;
         startDate = StartDate;
         competitive = Competitive;
@@ -110,7 +111,7 @@ public class Member {
         return name;
     }
 
-    public String getDiscipline() {
+    public Discipline getDiscipline() {
         return discipline;
     }
 
@@ -158,7 +159,7 @@ public class Member {
         name = value;
     }
 
-    public void setDiscipline(String value) {
+    public void setDiscipline(Discipline value) {
         discipline = value;
     }
 

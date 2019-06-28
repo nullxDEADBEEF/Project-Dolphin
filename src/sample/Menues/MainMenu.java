@@ -7,17 +7,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import sample.CompetitorList;
-import sample.Constants;
-import sample.Controller;
-import sample.CompetitionList;
+import javafx.stage.Stage;
+import sample.*;
 
 public class MainMenu {
     private Scene scene;
 
-    private static MainMenu instance = null;
-
-    private MainMenu() {
+    public MainMenu() {
         VBox layout = new VBox();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
@@ -30,30 +26,33 @@ public class MainMenu {
         Button viewHighscoreButton = new Button("View High Scores");
 
         // Handle button events
-        createButton.setOnAction(click ->
-                Controller.setActiveScene(MemberCreation.getInstance().getScene()));
+        createButton.setOnAction(click -> {
+            Constants.CONTROLLER.setActiveScene(new MemberCreation().getScene());
+        });
 
         exitButton.setOnAction(click -> Platform.exit());
 
-        viewMembersButton.setOnAction(click ->
-            Controller.setActiveScene(ViewMember.getInstance().getScene()));
+        viewMembersButton.setOnAction(click -> {
+            Constants.CONTROLLER.setActiveScene(new ViewMember().getScene());
+        });
 
-        viewDeficitButton.setOnAction(click ->
-            Controller.setActiveScene(DeficitMember.getInstance().getScene()));
+        viewDeficitButton.setOnAction(click -> {
+            Constants.CONTROLLER.setActiveScene(new DeficitMember().getScene());
+        });
 
         createCompetitionButton.setOnAction(click -> {
             CompetitorList.loadAllCompetitors();
-            Controller.setActiveScene(CompetitionCreation.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new CompetitionCreation().getScene());
         });
 
         viewCompetitionsButton.setOnAction(click -> {
             CompetitionList.loadAllCompetitions();
-            Controller.setActiveScene(ViewCompetition.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new ViewCompetition().getScene());
         });
 
         viewHighscoreButton.setOnAction(click -> {
             CompetitionList.loadAllCompetitions();
-            Controller.setActiveScene(ViewHighscore.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new ViewHighscore().getScene());
         });
 
         // Give the buttons an upper width limit
@@ -87,14 +86,6 @@ public class MainMenu {
         layout.getChildren().addAll(createButton, viewMembersButton,
                 viewDeficitButton, createCompetitionButton, viewCompetitionsButton,
                 viewHighscoreButton, exitButton);
-    }
-
-    public static MainMenu getInstance() {
-        if (instance == null) {
-            instance = new MainMenu();
-        }
-
-        return instance;
     }
 
     public Scene getScene() {

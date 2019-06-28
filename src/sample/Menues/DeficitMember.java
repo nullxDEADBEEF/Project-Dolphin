@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 import sample.Constants;
 import sample.Controller;
 import sample.IO.IOWriter;
@@ -41,17 +42,16 @@ public class DeficitMember {
 
     private Button memberInfoBackButton;
 
-
     private ListView<Member> memberDeficitListView;
     private ObservableList<Member> membersInDeficit;
 
     private Popup depositPopUp;
 
-    private static DeficitMember instance = null;
-
-    private DeficitMember() {
+    public DeficitMember() {
         GridPane layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        IOWriter ioWriter = new IOWriter();
 
         memberInfoLayout = new GridPane();
         memberScene = new Scene(memberInfoLayout, Constants.WINDOW_WIDTH,
@@ -125,14 +125,15 @@ public class DeficitMember {
 
         backButton.setOnAction(click -> {
             depositPopUp.hide();
-            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
         });
 
-        memberInfoBackButton.setOnAction(click ->
-                Controller.setActiveScene(scene));
+        memberInfoBackButton.setOnAction(click -> {
+            Constants.CONTROLLER.setActiveScene(scene);
+        });
 
         depositButton.setOnAction(click -> {
-            depositPopUp.show(Controller.getStage());
+            depositPopUp.show(Constants.CONTROLLER.getStage());
         });
 
         popUpCancelButton.setOnAction(click -> depositPopUp.hide());
@@ -142,7 +143,7 @@ public class DeficitMember {
             depositPopUp.hide();
             popUpAmountTextField.clear();
 
-            IOWriter.writeFile(memberDeficitListView.getSelectionModel().getSelectedItem());
+            ioWriter.writeFile(memberDeficitListView.getSelectionModel().getSelectedItem());
 
             if (memberDeficitListView.getSelectionModel().getSelectedItem().getBalance() < 0) {
                 memberDeficitListView.getSelectionModel().getSelectedItem().setDeficit(false);
@@ -158,7 +159,7 @@ public class DeficitMember {
         memberDeficitListView.setOnMouseClicked(click -> {
             if (click.getButton().equals(MouseButton.PRIMARY)) {
                 if (click.getClickCount() == 2) {
-                    Controller.setActiveScene(memberScene);
+                    Constants.CONTROLLER.setActiveScene(memberScene);
                     displayMemberInfo(memberDeficitListView.getSelectionModel().getSelectedItem());
                 }
             }
@@ -197,14 +198,6 @@ public class DeficitMember {
         deficitLabel.setText("Deficit: " + member.isDeficit());
         balanceLabel.setText("Balance: " + member.getBalance());
         trainerLabel.setText("Trainer: " + member.getAppointedTrainer());
-    }
-
-    public static DeficitMember getInstance() {
-        if (instance == null) {
-            instance = new DeficitMember();
-        }
-
-        return instance;
     }
 
     public Scene getScene() { return scene; }

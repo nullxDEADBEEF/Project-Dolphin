@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import sample.Competition;
 import sample.Constants;
 import sample.Controller;
@@ -14,9 +15,7 @@ import sample.CompetitionList;
 public class ViewCompetition {
     private Scene scene;
 
-    private static ViewCompetition instance = null;
-
-    private ViewCompetition() {
+    public ViewCompetition() {
         GridPane layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
@@ -28,19 +27,11 @@ public class ViewCompetition {
 
         Button backButton = new Button("Back");
         backButton.setOnAction(click -> {
-            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
         });
 
         layout.add(competitionListView, 0, 0);
         layout.add(backButton, 0, 1);
-    }
-
-    public static ViewCompetition getInstance() {
-        if (instance == null) {
-            instance = new ViewCompetition();
-        }
-
-        return instance;
     }
 
     public Scene getScene() {

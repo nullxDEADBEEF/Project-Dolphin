@@ -17,7 +17,7 @@ public class CompetitorList {
         freestyleCompetitors = FXCollections.observableArrayList();
 
         for (Member member : MemberList.competitiveMembers) {
-            if (member.getDiscipline().equalsIgnoreCase("Freestyle")) {
+            if (member.getDiscipline().toString().equalsIgnoreCase("Freestyle")) {
                 freestyleCompetitors.add(member);
             }
         }
@@ -27,7 +27,7 @@ public class CompetitorList {
         backstrokeCompetitors = FXCollections.observableArrayList();
 
         for (Member member : MemberList.competitiveMembers) {
-            if (member.getDiscipline().equalsIgnoreCase("Backstroke")) {
+            if (member.getDiscipline().toString().equalsIgnoreCase("Backstroke")) {
                 backstrokeCompetitors.add(member);
             }
         }
@@ -37,7 +37,7 @@ public class CompetitorList {
         breaststrokeCompetitors = FXCollections.observableArrayList();
 
         for (Member member : MemberList.competitiveMembers) {
-            if (member.getDiscipline().equalsIgnoreCase("Breaststroke")) {
+            if (member.getDiscipline().toString().equalsIgnoreCase("Breaststroke")) {
                 breaststrokeCompetitors.add(member);
             }
         }

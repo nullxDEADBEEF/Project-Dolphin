@@ -8,7 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import sample.*;
+import sample.Disciplines.Discipline;
+import sample.Disciplines.DisciplineList;
 import sample.IO.IOWriter;
 import sample.CompetitionList;
 
@@ -19,7 +22,7 @@ public class CompetitionCreation {
 
     private DatePicker competitionDate;
 
-    private ComboBox<String> disciplineComboBox;
+    private ComboBox<Discipline> disciplineComboBox;
 
     private ComboBox<Member> competitorSelect1;
     private ComboBox<Member> competitorSelect2;
@@ -33,13 +36,16 @@ public class CompetitionCreation {
     private TextField fourthParticipantTime;
     private TextField fifthParticipantTime;
 
-    private static CompetitionCreation instance = null;
+    private IOWriter ioWriter;
 
-    private CompetitionCreation() {
+    public CompetitionCreation() {
         GridPane layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
+        ioWriter = new IOWriter();
+
         competitionDate = new DatePicker();
+        DisciplineList disciplineList = new DisciplineList();
 
         // load in the different discipline members
         CompetitorList.loadFreestyleCompetitors();
@@ -54,17 +60,15 @@ public class CompetitionCreation {
         competitorSelect4 = new ComboBox<Member>();
         competitorSelect5 = new ComboBox<Member>();
 
-        disciplineComboBox = new ComboBox<String>();
+        disciplineComboBox = new ComboBox<>();
         disciplineComboBox.setPromptText("Select discipline");
-        disciplineComboBox.getItems().add("Freestyle");
-        disciplineComboBox.getItems().add("Breaststroke");
-        disciplineComboBox.getItems().add("Backstroke");
+        disciplineComboBox.getItems().addAll(disciplineList.getDisciplines());
 
         // NOTE: gives a NullPointerException for some reason, but doesnt
         // affect the program, dont know how that works
         disciplineComboBox.getSelectionModel().selectedItemProperty()
                 .addListener( (v, oldValue, newValue) -> {
-                    switch (newValue) {
+                    switch (newValue.toString()) {
                         case "Freestyle":
                             setSelectorsToFreestyle();
                             break;
@@ -169,7 +173,7 @@ public class CompetitionCreation {
             Competition competition = new Competition(disciplineName,
                     competitionDate.getValue(), participants, participantTimes);
 
-            IOWriter.writeFile(competition);
+            ioWriter.writeFile(competition);
             CompetitionList.competitions.add(competition);
 
             clearFields();
@@ -178,16 +182,8 @@ public class CompetitionCreation {
 
         backButton.setOnAction(click -> {
             clearFields();
-            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
         });
-    }
-
-    public static CompetitionCreation getInstance() {
-        if (instance == null) {
-            instance = new CompetitionCreation();
-        }
-
-        return instance;
     }
 
     private void clearFields() {

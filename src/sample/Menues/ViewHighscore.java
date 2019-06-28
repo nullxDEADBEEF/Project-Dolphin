@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import sample.*;
 
@@ -18,9 +19,7 @@ public class ViewHighscore {
 
     private TextArea highscores;
 
-    private static ViewHighscore instance = null;
-
-    private ViewHighscore() {
+    public ViewHighscore() {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
@@ -78,7 +77,7 @@ public class ViewHighscore {
 
         backButton.setOnAction(click -> {
             highscores.clear();
-            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
         });
     }
 
@@ -120,13 +119,5 @@ public class ViewHighscore {
 
     public Scene getScene() {
         return scene;
-    }
-
-    public static ViewHighscore getInstance() {
-        if (instance == null) {
-            instance = new ViewHighscore();
-        }
-
-        return instance;
     }
 }

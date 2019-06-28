@@ -40,11 +40,15 @@ public class ViewMember {
 
     private Popup depositPopUp;
 
-    private static ViewMember instance = null;
+    private IOWriter ioWriter;
+    private EditMember editMember;
 
-    private ViewMember() {
+    public ViewMember() {
         layout = new GridPane();
         memberInfoLayout = new GridPane();
+
+        ioWriter = new IOWriter();
+        editMember = new EditMember();
 
         idLabel = new Label();
         nameLabel = new Label();
@@ -134,18 +138,18 @@ public class ViewMember {
 
         backButton.setOnAction(click -> {
             depositPopUp.hide();
-            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
         });
 
         deleteButton.setOnAction(click -> {
             Member fileName =
                     membersListView.getSelectionModel().getSelectedItem();
 
-            IOWriter.deleteFile(fileName);
+            ioWriter.deleteFile(fileName);
 
             MemberList.members.remove(membersListView.getSelectionModel().getSelectedItem());
 
-            switch (membersListView.getSelectionModel().getSelectedItem().getDiscipline()) {
+            switch (membersListView.getSelectionModel().getSelectedItem().getDiscipline().toString()) {
                 case "Freestyle":
                     CompetitorList.freestyleCompetitors.remove(
                             CompetitorList.freestyleCompetitors
@@ -168,13 +172,14 @@ public class ViewMember {
         });
 
         editButton.setOnAction(click -> {
-            EditMember.setSelectedMember(membersListView.getSelectionModel().getSelectedItem());
-            EditMember.getInstance().fillMemberData();
-            Controller.setActiveScene(EditMember.getInstance().getScene());
+            editMember.setSelectedMember(membersListView.getSelectionModel().getSelectedItem());
+            editMember.fillMemberData();
+            Constants.CONTROLLER.setActiveScene(editMember.getScene());
         });
 
-        depositButton.setOnAction(click ->
-                depositPopUp.show(Controller.getStage()));
+        depositButton.setOnAction(click -> {
+            depositPopUp.show(Constants.CONTROLLER.getStage());
+        });
 
         popUpCancelButton.setOnAction(click -> depositPopUp.hide());
 
@@ -184,7 +189,7 @@ public class ViewMember {
             depositPopUp.hide();
             popUpAmountTextField.clear();
 
-            IOWriter.writeFile(membersListView.getSelectionModel().getSelectedItem());
+            ioWriter.writeFile(membersListView.getSelectionModel().getSelectedItem());
 
             if (membersListView.getSelectionModel().getSelectedItem().getBalance() > 0) {
                 membersListView.getSelectionModel().getSelectedItem().setDeficit(true);
@@ -195,13 +200,15 @@ public class ViewMember {
             membersListView.setItems(MemberList.members.sorted());
         });
 
-        memberInfobackButton.setOnAction(click -> Controller.setActiveScene(scene));
+        memberInfobackButton.setOnAction(click -> {
+            Constants.CONTROLLER.setActiveScene(scene);
+        });
 
         // NOTE: MouseButton.PRIMARY means left click
         membersListView.setOnMouseClicked(click -> {
             if (click.getButton().equals(MouseButton.PRIMARY)) {
                 if (click.getClickCount() == 2) {
-                    Controller.setActiveScene(memberScene);
+                    Constants.CONTROLLER.setActiveScene(memberScene);
                     displayMemberInfo(membersListView.getSelectionModel().getSelectedItem());
                 }
             }
@@ -222,14 +229,6 @@ public class ViewMember {
         deficitLabel.setText("Deficit: " + member.isDeficit());
         balanceLabel.setText("Balance: " + member.getBalance());
         trainerLabel.setText("Trainer: " + member.getAppointedTrainer());
-    }
-
-    public static ViewMember getInstance() {
-        if (instance == null) {
-            instance = new ViewMember();
-        }
-
-        return instance;
     }
 
     public ListView<Member> getMembersListView() {

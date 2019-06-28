@@ -7,7 +7,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import sample.Constants;
-import sample.Controller;
+import sample.Disciplines.Discipline;
+import sample.Disciplines.DisciplineList;
 import sample.IO.IOReader;
 import sample.IO.IOWriter;
 import sample.Member;
@@ -20,7 +21,7 @@ public class EditMember {
     private Scene scene;
 
     private TextField nameTextField;
-    private ComboBox disciplineComboBox;
+    private ComboBox<Discipline> disciplineComboBox;
     private DatePicker birthdayDatePicker;
     private DatePicker startDatePicker;
     private TextField emailAddressTextField;
@@ -44,17 +45,24 @@ public class EditMember {
     private RadioButton competitiveSwimmerRadioButton;
     private RadioButton exerciseSwimmerRadioButton;
 
-    private static Member selectedMember;
+    private Member selectedMember;
     private Member memberToEdit;
 
     private ToggleGroup membershipToggleGroup;
     private ToggleGroup swimTypeToggleGroup;
 
-    private static EditMember instance = null;
+    private IOReader ioReader;
 
-    private EditMember() {
+    private TrainerList trainerList;
+
+    public EditMember() {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        ioReader = new IOReader();
+        IOWriter ioWriter = new IOWriter();
+        DisciplineList disciplineList = new DisciplineList();
+        trainerList = new TrainerList();
 
         nameLabel = new Label("Name");
         disciplineLabel = new Label("Discipline");
@@ -75,11 +83,9 @@ public class EditMember {
         trainerLabel.setTextFill(Color.WHITE);
 
         nameTextField = new TextField();
-        disciplineComboBox = new ComboBox();
+        disciplineComboBox = new ComboBox<>();
         disciplineComboBox.setPromptText("Select discipline");
-        disciplineComboBox.getItems().add("Freestyle");
-        disciplineComboBox.getItems().add("Breaststroke");
-        disciplineComboBox.getItems().add("Backstroke");
+        disciplineComboBox.getItems().addAll(disciplineList.getDisciplines());
 
         birthdayDatePicker = new DatePicker();
         startDatePicker = new DatePicker();
@@ -87,10 +93,10 @@ public class EditMember {
         emailAddressTextField = new TextField();
         phoneNumberTextField = new TextField();
         balanceTextField = new TextField();
-        trainerComboBox = new ComboBox();
+        trainerComboBox = new ComboBox<>();
         trainerComboBox.setPromptText("Select trainer");
 
-        for (Trainer trainer : TrainerList.getTrainers()) {
+        for (Trainer trainer : trainerList.getTrainers()) {
             trainerComboBox.getItems().add(trainer);
         }
 
@@ -144,7 +150,7 @@ public class EditMember {
 
             Member member =
                     new Member(nameTextField.getText(),
-                            disciplineComboBox.getValue().toString(),
+                            disciplineComboBox.getValue(),
                             birthdayDatePicker.getValue(), startDatePicker.getValue(),
                             competitiveSwimmer,
                             activeMembership,
@@ -156,7 +162,7 @@ public class EditMember {
             // NOTE: we set the member id here so that we get the correct id
             // therefore writing to the correct file
             member.setId(memberToEdit.getId());
-            IOWriter.writeFile(member);
+            ioWriter.writeFile(member);
 
             if (member.getBalance() <= 0) {
                 // Remove the old data in the list view
@@ -170,16 +176,17 @@ public class EditMember {
             }
 
             // Sort the list, using natural ordering
-            ViewMember.getInstance().getMembersListView().setItems(MemberList.members.sorted());
+            new ViewMember().getMembersListView().setItems(MemberList.members.sorted());
 
             clearFields();
             memberEditedAlert.showAndWait();
         });
 
         backButton.setOnAction(click -> {
-            ViewMember.getInstance().getMembersListView().refresh();
+            ViewMember viewMember = new ViewMember();
+            viewMember.getMembersListView().refresh();
             clearFields();
-            Controller.setActiveScene(ViewMember.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(viewMember.getScene());
         });
     }
 
@@ -226,19 +233,19 @@ public class EditMember {
 
     public void fillMemberData() {
         memberToEdit =
-                IOReader.readMemberFile(Constants.MEMBER_PATH + selectedMember.getId());
+                ioReader.readMemberFile(Constants.MEMBER_PATH + selectedMember.getId());
 
         // Find discipline
         for (int i = 0; i < disciplineComboBox.getItems().size(); i++) {
-            if (disciplineComboBox.getItems().get(i).toString().equalsIgnoreCase(memberToEdit.getDiscipline())) {
+            if (disciplineComboBox.getItems().get(i).toString().equalsIgnoreCase(memberToEdit.getDiscipline().toString())) {
                 disciplineComboBox.getSelectionModel().select(i);
                 break;
             }
         }
 
         // Find trainer
-        for (int i = 0; i < TrainerList.getTrainers().size(); i++) {
-            if (TrainerList.getTrainers().get(i) == memberToEdit.getAppointedTrainer()) {
+        for (int i = 0; i < trainerList.getTrainers().size(); i++) {
+            if (trainerList.getTrainers().get(i) == memberToEdit.getAppointedTrainer()) {
                 trainerComboBox.getSelectionModel().select(i);
                 break;
             }
@@ -253,18 +260,7 @@ public class EditMember {
         balanceTextField.setText(String.valueOf(memberToEdit.getBalance()));
     }
 
-    public static EditMember getInstance() {
-        if (instance == null) {
-            instance = new EditMember();
-        }
-
-        return instance;
-    }
-
-    // NOTE: we make it static since the constructor will be run first
-    // therefore giving a null exception before we can set the selected member
-    // to edit from
-    public static void setSelectedMember(Member member) {
+    public void setSelectedMember(Member member) {
         selectedMember = member;
     }
 

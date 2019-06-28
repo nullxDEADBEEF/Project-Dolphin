@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class IOWriter {
-    public static void writeFile(Member member) {
+
+    public IOWriter() {}
+
+    public void writeFile(Member member) {
         try {
             FileWriter writer =
                     new FileWriter(Constants.MEMBER_PATH + member.getId());
@@ -32,11 +35,11 @@ public class IOWriter {
 
             printWriter.close();
         } catch (IOException e) {
-            System.out.println("ERROR: " + e);
+            System.out.println("IOWRITER ERROR: " + e);
         }
     }
 
-    public static void writeFile(Competition competition) {
+    public void writeFile(Competition competition) {
         try {
             FileWriter writer =
                     new FileWriter(Constants.COMPETITION_PATH +
@@ -64,17 +67,21 @@ public class IOWriter {
 
             printWriter.close();
         } catch (IOException e) {
-            System.out.println("ERROR: " + e);
+            System.out.println("IOWRITER RROR: " + e);
         }
     }
 
-    public static void deleteFile(Member member) {
+    public void deleteFile(Member member) {
         File file = new File(Constants.MEMBER_PATH + member.getId());
-        file.delete();
+        if (file.delete()) {
+            System.out.println(member.getId() + " was deleted successfully");
+        }
     }
 
-    public static void deleteCompetitionFile(Competition competition) {
+    public void deleteCompetitionFile(Competition competition) {
         File file = new File(Constants.COMPETITION_PATH + competition.getName());
-        file.delete();
+        if (file.delete()) {
+            System.out.println(competition + " was deleted successfully");
+        }
     }
 }

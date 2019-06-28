@@ -7,6 +7,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import sample.*;
+import sample.Disciplines.Discipline;
+import sample.Disciplines.DisciplineList;
 import sample.IO.IOWriter;
 import sample.User.Trainer;
 import sample.User.TrainerList;
@@ -25,7 +27,7 @@ public class MemberCreation {
     private Label trainerLabel;
 
     private TextField nameTextField;
-    private ComboBox disciplineComboBox;
+    private ComboBox<Discipline> disciplineComboBox;
     private DatePicker birthdayDatePicker;
     private DatePicker startDatePicker;
     private TextField emailAddressTextField;
@@ -43,11 +45,13 @@ public class MemberCreation {
     ToggleGroup membershipToggleGroup;
     ToggleGroup swimTypeToggleGroup;
 
-    private static MemberCreation instance = null;
-
-    private MemberCreation() {
+    public MemberCreation() {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        DisciplineList disciplineList = new DisciplineList();
+        IOWriter ioWriter = new IOWriter();
+        TrainerList trainerList = new TrainerList();
 
         nameLabel = new Label("Name");
         disciplineLabel = new Label("Discipline");
@@ -68,11 +72,9 @@ public class MemberCreation {
         trainerLabel.setTextFill(Color.WHITE);
 
         nameTextField = new TextField();
-        disciplineComboBox = new ComboBox();
+        disciplineComboBox = new ComboBox<>();
         disciplineComboBox.setPromptText("Select discipline");
-        disciplineComboBox.getItems().add("Freestyle");
-        disciplineComboBox.getItems().add("Breaststroke");
-        disciplineComboBox.getItems().add("Backstroke");
+        disciplineComboBox.getItems().addAll(disciplineList.getDisciplines());
 
         birthdayDatePicker = new DatePicker();
         startDatePicker = new DatePicker();
@@ -80,9 +82,9 @@ public class MemberCreation {
         emailAddressTextField = new TextField();
         phoneNumberTextField = new TextField();
         balanceTextField = new TextField();
-        trainerComboBox = new ComboBox();
+        trainerComboBox = new ComboBox<>();
         trainerComboBox.setPromptText("Select trainer");
-        for (Trainer trainer : TrainerList.getTrainers()) {
+        for (Trainer trainer : trainerList.getTrainers()) {
             trainerComboBox.getItems().add(trainer);
         }
 
@@ -158,7 +160,7 @@ public class MemberCreation {
 
             Member member =
                     new Member(nameTextField.getText(),
-                            disciplineComboBox.getValue().toString(),
+                            disciplineComboBox.getValue(),
                             birthdayDatePicker.getValue(), startDatePicker.getValue(),
                             competitiveSwimmer,
                             activeMembership,
@@ -169,7 +171,7 @@ public class MemberCreation {
 
             member.generateId();
 
-            IOWriter.writeFile(member);
+            ioWriter.writeFile(member);
             clearFields();
 
             if (member.isCompetetive() && !member.isDeficit()) {
@@ -188,7 +190,7 @@ public class MemberCreation {
         });
 
         backButton.setOnAction(click -> {
-            Controller.setActiveScene(MainMenu.getInstance().getScene());
+            Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
             clearFields();
         });
     }
@@ -208,14 +210,6 @@ public class MemberCreation {
         passiveMembershipRadioButton.setSelected(false);
         competitiveSwimmerRadioButton.setSelected(false);
         exerciseSwimmerRadioButton.setSelected(false);
-    }
-
-    public static MemberCreation getInstance() {
-        if (instance == null) {
-            instance = new MemberCreation();
-        }
-
-        return instance;
     }
 
     public Scene getScene() { return scene; }

@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.Competition;
 import sample.Constants;
+import sample.Disciplines.Discipline;
+import sample.Disciplines.DisciplineList;
 import sample.Member;
 import sample.MemberList;
 import sample.CompetitionList;
@@ -17,10 +19,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class IOReader {
-    private static ObservableList<Member> memberFiles =
-            FXCollections.observableArrayList();
+    private ObservableList<Member> memberFiles;
 
-    public static void loadMembersFromFile() throws FileNotFoundException {
+    private DisciplineList disciplineList;
+    private TrainerList trainerList;
+
+    public IOReader() {
+        memberFiles = FXCollections.observableArrayList();
+        disciplineList = new DisciplineList();
+        trainerList = new TrainerList();
+    }
+
+    public void loadMembersFromFile() throws FileNotFoundException {
         File directory = new File(Constants.MEMBER_PATH);
         File[] files = directory.listFiles();
 
@@ -33,7 +43,7 @@ public class IOReader {
         }
     }
 
-    public static void loadMemberTypes() {
+    public void loadMemberTypes() {
         for (Member member : memberFiles) {
             if (member.isCompetetive() && !member.isDeficit()) {
                 MemberList.competitiveMembers.add(member);
@@ -47,7 +57,7 @@ public class IOReader {
         }
     }
 
-    public static void loadCompetitionsFromFile() throws FileNotFoundException {
+    public void loadCompetitionsFromFile() throws FileNotFoundException {
         File directory = new File(Constants.COMPETITION_PATH);
         File[] files = directory.listFiles();
 
@@ -60,7 +70,7 @@ public class IOReader {
         }
     }
 
-    public static Member readMemberFile(String memberId) {
+    public Member readMemberFile(String memberId) {
         String name;
         String discipline;
         LocalDate birthday;
@@ -94,26 +104,37 @@ public class IOReader {
             trainer = fileReader.nextLine();
 
             Trainer chosenTrainer = new Trainer();
+            Discipline chosenDiscipline = new Discipline() {};
 
-            for (int i = 0; i < TrainerList.getTrainers().size(); i++) {
-                if (TrainerList.getTrainers().get(i).getName().equalsIgnoreCase(trainer)) {
-                    chosenTrainer = TrainerList.getTrainers().get(i);
+            // Find trainer based on trainer name
+            for (Trainer trainerIndex : trainerList.getTrainers()) {
+                if (trainerIndex.getName().equalsIgnoreCase(trainer)) {
+                    chosenTrainer = trainerIndex;
+                    break;
                 }
             }
 
-            memberToReturn = new Member(name, discipline, birthday, startDate,
+            // Find discipline based on discipline name
+            for (Discipline disciplineIndex : disciplineList.getDisciplines()) {
+                if (disciplineIndex.toString().equalsIgnoreCase(discipline)) {
+                    chosenDiscipline = disciplineIndex;
+                    break;
+                }
+            }
+
+            memberToReturn = new Member(name, chosenDiscipline, birthday, startDate,
                     competitive, active, email, phoneNumber, balance, chosenTrainer);
             memberToReturn.setId(id);
             fileReader.close();
 
         } catch (FileNotFoundException ex) {
-            System.out.println("ERROR: " + ex);
+            System.out.println("IOREADER ERROR: " + ex);
         }
 
         return memberToReturn;
     }
 
-    private static Competition readCompetitionFile(String competitionName) {
+    private Competition readCompetitionFile(String competitionName) {
 
         Competition competition = new Competition();
         try {

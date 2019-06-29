@@ -16,6 +16,7 @@ import sample.MemberList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
+// handles the setup of the edit member page
 public class EditMember {
     private GridPane layout;
     private Scene scene;
@@ -63,6 +64,8 @@ public class EditMember {
         IOWriter ioWriter = new IOWriter();
         DisciplineList disciplineList = new DisciplineList();
         trainerList = new TrainerList();
+
+        // setup GUI
 
         nameLabel = new Label("Name");
         disciplineLabel = new Label("Discipline");
@@ -138,6 +141,7 @@ public class EditMember {
         setupPageElements();
 
 
+        // edit member data with new information
         finishButton.setOnAction(click -> {
             Alert memberEditedAlert = new Alert(Alert.AlertType.CONFIRMATION);
             memberEditedAlert.setContentText("Member edited!");
@@ -219,6 +223,9 @@ public class EditMember {
         layout.add(backButton, 1, 12);
     }
 
+    /**
+     * clears the text boxes to avoid data staying in them
+     */
     private void clearFields() {
         nameTextField.clear();
         emailAddressTextField.clear();
@@ -231,6 +238,9 @@ public class EditMember {
         startDatePicker.getEditor().clear();
     }
 
+    /**
+     * Fills the member data into the GUI elements
+     */
     public void fillMemberData() {
         memberToEdit =
                 ioReader.readMemberFile(Constants.MEMBER_PATH + selectedMember.getId());

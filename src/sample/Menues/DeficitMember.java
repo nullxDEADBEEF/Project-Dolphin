@@ -20,6 +20,7 @@ import sample.IO.IOWriter;
 import sample.Member;
 import sample.MemberList;
 
+// handles the setup of the deficit members page
 public class DeficitMember {
     private GridPane memberInfoLayout;
 
@@ -61,7 +62,7 @@ public class DeficitMember {
         membersInDeficit = MemberList.membersInDeficit;
         memberDeficitListView.setItems(membersInDeficit.sorted());
 
-
+        // setup GUI
 
         Button depositButton = new Button("Deposit");
         Button backButton = new Button("Back");
@@ -132,11 +133,14 @@ public class DeficitMember {
             Constants.CONTROLLER.setActiveScene(scene);
         });
 
+        // Show deposit popup to pay out their deficit
         depositButton.setOnAction(click -> {
             depositPopUp.show(Constants.CONTROLLER.getStage());
         });
 
         popUpCancelButton.setOnAction(click -> depositPopUp.hide());
+
+        // deposit money into a member's balance
         popUpOkButton.setOnAction(click -> {
             int amount = Integer.parseInt(popUpAmountTextField.getText());
             memberDeficitListView.getSelectionModel().getSelectedItem().addToBalance(amount);
@@ -156,6 +160,7 @@ public class DeficitMember {
             memberDeficitListView.setItems(MemberList.membersInDeficit.sorted());
         });
 
+        // displays member info when double clicked
         memberDeficitListView.setOnMouseClicked(click -> {
             if (click.getButton().equals(MouseButton.PRIMARY)) {
                 if (click.getClickCount() == 2) {

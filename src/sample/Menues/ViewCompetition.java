@@ -12,12 +12,15 @@ import sample.Constants;
 import sample.Controller;
 import sample.CompetitionList;
 
+// handles the setup of viewing competitions
 public class ViewCompetition {
     private Scene scene;
 
     public ViewCompetition() {
         GridPane layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        // setup GUI
 
         ListView<Competition> competitionListView = new ListView<>();
         competitionListView.setItems(CompetitionList.competitions.sorted());

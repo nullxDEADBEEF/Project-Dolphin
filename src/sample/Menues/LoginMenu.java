@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import sample.Constants;
 import sample.Controller;
 
+// handles the setup of the login page
 public class LoginMenu {
     private GridPane layout;
     private Scene scene;
@@ -28,6 +29,8 @@ public class LoginMenu {
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         MainMenu mainMenu = new MainMenu();
+
+        // setup GUI
 
         usernameLabel = new Label("Username");
         passwordLabel = new Label("Password");

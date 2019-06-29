@@ -59,10 +59,18 @@ public class Member {
         setDeficit(isBalanceNegative(balance));
     }
 
+    /**
+     * checks if member is deficit (deficit when balance > 0)
+     * @param balance the members current balance
+     * @return true if member is going to be deficit else stay as active member
+     */
     private boolean isBalanceNegative(int balance) {
         return balance > 0;
     }
 
+    /**
+     * pays the subscription price if it is the payment date
+     */
     private void determinePayment() {
         if (LocalDate.now().equals(paymentDate)) {
             if (active && seniority && age >= 60) {
@@ -87,6 +95,7 @@ public class Member {
         }
     }
 
+    // Getters and setters
     public void generateId() {
         id = String.valueOf(random.nextInt());
     }

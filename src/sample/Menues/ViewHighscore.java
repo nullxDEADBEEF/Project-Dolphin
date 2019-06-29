@@ -13,6 +13,7 @@ import sample.*;
 
 import java.util.ArrayList;
 
+// handles the setup of the high score page
 public class ViewHighscore {
     private GridPane layout;
     private Scene scene;
@@ -22,6 +23,8 @@ public class ViewHighscore {
     public ViewHighscore() {
         layout = new GridPane();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        // setup GUI
 
         Button freestyleScoreButton = new Button("Freestyle");
         Button backstrokeScoreButton = new Button("Backstroke");
@@ -41,6 +44,7 @@ public class ViewHighscore {
         layout.add(highscores, 0, 3, 4, 4);
         layout.add(backButton, 0, 8);
 
+        // shows top 5 best times in the freestyle discipline
         freestyleScoreButton.setOnAction(click -> {
             highscores.clear();
             Highscore highscore = new Highscore();
@@ -52,6 +56,7 @@ public class ViewHighscore {
             displayTop5(scores);
         });
 
+        // shows top 5 best times in the backstroke discipline
         backstrokeScoreButton.setOnAction(click -> {
             highscores.clear();
             Highscore highscore = new Highscore();
@@ -63,6 +68,7 @@ public class ViewHighscore {
             displayTop5(scores);
         });
 
+        // shows the top 5 best time in the breaststroke discipline
         breaststrokeButton.setOnAction(click -> {
             highscores.clear();
             Highscore highscore = new Highscore();
@@ -81,6 +87,12 @@ public class ViewHighscore {
         });
     }
 
+    /**
+     * loads in all discipline specific competitions and finds top 5 best
+     * @param highscore holds the high scores for the discipline
+     * @param competitions all the competitions in a given discipline
+     * @return top 5 scores in a given discipline
+     */
     private ArrayList<Pair<Member, Integer>> determineTop5(Highscore highscore,
                                ObservableList<Competition> competitions) {
         ArrayList<Pair<Member, Integer>> scores = new ArrayList<>();
@@ -103,6 +115,10 @@ public class ViewHighscore {
         return scores;
     }
 
+    /**
+     * displays the top 5 best scores to the screen
+     * @param top5 top 5 high scores in a discipline
+     */
     private void displayTop5(ArrayList<Pair<Member, Integer>> top5) {
         highscores.setText(
                 "1. place\n" + top5.get(0).getKey() + "\n" +

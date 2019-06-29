@@ -10,12 +10,15 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import sample.*;
 
+// handles the setup of the main menu page
 public class MainMenu {
     private Scene scene;
 
     public MainMenu() {
         VBox layout = new VBox();
         scene = new Scene(layout, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
+        // setup GUI
 
         Button createButton = new Button("Create Member");
         Button exitButton = new Button("Exit");

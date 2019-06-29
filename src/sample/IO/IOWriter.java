@@ -9,10 +9,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+// Write member and competition data into a file
 public class IOWriter {
 
     public IOWriter() {}
 
+    /**
+     * writes the members data into a file(their id)
+     * @param member the members data to write
+     */
     public void writeFile(Member member) {
         try {
             FileWriter writer =
@@ -39,6 +44,10 @@ public class IOWriter {
         }
     }
 
+    /**
+     * writes the competition data into a file(swim type + date)
+     * @param competition the competition data to write
+     */
     public void writeFile(Competition competition) {
         try {
             FileWriter writer =
@@ -71,6 +80,10 @@ public class IOWriter {
         }
     }
 
+    /**
+     * deletes a member from the system
+     * @param member the member to delete
+     */
     public void deleteFile(Member member) {
         File file = new File(Constants.MEMBER_PATH + member.getId());
         if (file.delete()) {
@@ -78,6 +91,10 @@ public class IOWriter {
         }
     }
 
+    /**
+     * deletes a competition from the system
+     * @param competition the competition to delete
+     */
     public void deleteCompetitionFile(Competition competition) {
         File file = new File(Constants.COMPETITION_PATH + competition.getName());
         if (file.delete()) {

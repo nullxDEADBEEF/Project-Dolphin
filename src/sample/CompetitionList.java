@@ -3,6 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// Data holder for the different competition types
 public class CompetitionList {
     public static ObservableList<Competition> competitions =
             FXCollections.observableArrayList();
@@ -13,6 +14,9 @@ public class CompetitionList {
 
     public static ObservableList<Competition> breaststrokeCompetitions;
 
+    /**
+     * loads the freestyle type competitions into the program
+     */
     private static void loadFreestyleCompetitions() {
         freestyleCompetitions = FXCollections.observableArrayList();
 
@@ -23,6 +27,9 @@ public class CompetitionList {
         }
     }
 
+    /**
+     * loads the backstroke type competitions into the program
+     */
     private static void loadBackstrokeCompetitions() {
         backstrokeCompetitions = FXCollections.observableArrayList();
 
@@ -33,6 +40,9 @@ public class CompetitionList {
         }
     }
 
+    /**
+     * loads the breaststroke type competitions into the program
+     */
     private static void loadBreaststrokeCompetitions() {
         breaststrokeCompetitions = FXCollections.observableArrayList();
 
@@ -43,6 +53,9 @@ public class CompetitionList {
         }
     }
 
+    /**
+     * loads all type of competitions into the program
+     */
     public static void loadAllCompetitions() {
         loadFreestyleCompetitions();
         loadBackstrokeCompetitions();

@@ -12,6 +12,7 @@ import javafx.stage.Popup;
 import sample.*;
 import sample.IO.IOWriter;
 
+// handles the setup of the view member page
 public class ViewMember {
     private GridPane layout;
     private GridPane memberInfoLayout;
@@ -49,6 +50,8 @@ public class ViewMember {
 
         ioWriter = new IOWriter();
         editMember = new EditMember();
+
+        // setup GUI
 
         idLabel = new Label();
         nameLabel = new Label();
@@ -141,6 +144,7 @@ public class ViewMember {
             Constants.CONTROLLER.setActiveScene(new MainMenu().getScene());
         });
 
+        // Deletes a member from the system
         deleteButton.setOnAction(click -> {
             Member fileName =
                     membersListView.getSelectionModel().getSelectedItem();
@@ -171,18 +175,21 @@ public class ViewMember {
             }
         });
 
+        // edits a specified member's data
         editButton.setOnAction(click -> {
             editMember.setSelectedMember(membersListView.getSelectionModel().getSelectedItem());
             editMember.fillMemberData();
             Constants.CONTROLLER.setActiveScene(editMember.getScene());
         });
 
+        // show deposit box
         depositButton.setOnAction(click -> {
             depositPopUp.show(Constants.CONTROLLER.getStage());
         });
 
         popUpCancelButton.setOnAction(click -> depositPopUp.hide());
 
+        // deposit payment
         popUpOkButton.setOnAction(click -> {
             int amount = Integer.parseInt(popUpAmountTextField.getText());
             membersListView.getSelectionModel().getSelectedItem().addToBalance(amount);
@@ -205,6 +212,7 @@ public class ViewMember {
         });
 
         // NOTE: MouseButton.PRIMARY means left click
+        // displays detailed information about a member
         membersListView.setOnMouseClicked(click -> {
             if (click.getButton().equals(MouseButton.PRIMARY)) {
                 if (click.getClickCount() == 2) {

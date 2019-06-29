@@ -17,6 +17,7 @@ import sample.CompetitionList;
 
 import java.util.ArrayList;
 
+// handles the setup of the competition creation page
 public class CompetitionCreation {
     private Scene scene;
 
@@ -84,6 +85,8 @@ public class CompetitionCreation {
                     }
                 });
 
+        // setup GUI
+
         Button finishButton = new Button("Finish");
         Button backButton = new Button("Back");
 
@@ -148,6 +151,8 @@ public class CompetitionCreation {
         layout.setVgap(10.0);
         layout.setHgap(1.0);
 
+        // write competition data into a file and is added to the list of
+        // competitions
         finishButton.setOnAction(click -> {
             Alert competitionCreatedAlert =
                     new Alert(Alert.AlertType.CONFIRMATION);
@@ -186,6 +191,9 @@ public class CompetitionCreation {
         });
     }
 
+    /**
+     * clears the text boxes to avoid data staying there
+     */
     private void clearFields() {
         disciplineComboBox.getSelectionModel().clearSelection();
 
@@ -204,6 +212,9 @@ public class CompetitionCreation {
         competitionDate.getEditor().clear();
     }
 
+    /**
+     * sets the comboboxes to freestyle competitors based on the swim discipline
+     */
     private void setSelectorsToFreestyle() {
         competitorSelect1.setItems(CompetitorList.freestyleCompetitors.sorted());
         competitorSelect2.setItems(CompetitorList.freestyleCompetitors.sorted());
@@ -212,6 +223,10 @@ public class CompetitionCreation {
         competitorSelect5.setItems(CompetitorList.freestyleCompetitors.sorted());
     }
 
+    /**
+     * sets the comboboxes to breaststroke competitors based on the swim
+     * discipline
+     */
     private void setSelectorsToBreaststroke() {
         competitorSelect1.setItems(CompetitorList.breaststrokeCompetitors.sorted());
         competitorSelect2.setItems(CompetitorList.breaststrokeCompetitors.sorted());
@@ -220,6 +235,9 @@ public class CompetitionCreation {
         competitorSelect5.setItems(CompetitorList.breaststrokeCompetitors.sorted());
     }
 
+    /**
+     * sets the comboboxes to backstroke competitors based on the discipline
+     */
     private void setSelectorsToBackstroke() {
         competitorSelect1.setItems(CompetitorList.backstrokeCompetitors.sorted());
         competitorSelect2.setItems(CompetitorList.backstrokeCompetitors.sorted());

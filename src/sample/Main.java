@@ -15,6 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        // load in the data
         try {
             IOReader ioReader = new IOReader();
             TrainerList trainerList = new TrainerList();
@@ -26,6 +27,7 @@ public class Main extends Application {
             System.out.println("ERROR: " + ex.getMessage());
         }
 
+        // setup the window data
         stage = Constants.STAGE;
         stage.setResizable(false);
         stage.centerOnScreen();

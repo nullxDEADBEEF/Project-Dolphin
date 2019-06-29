@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Read in member and competition data from files
 public class IOReader {
     private ObservableList<Member> memberFiles;
 
@@ -30,6 +31,10 @@ public class IOReader {
         trainerList = new TrainerList();
     }
 
+    /**
+     * loads the swim club members into the program
+     * @throws FileNotFoundException
+     */
     public void loadMembersFromFile() throws FileNotFoundException {
         File directory = new File(Constants.MEMBER_PATH);
         File[] files = directory.listFiles();
@@ -43,6 +48,10 @@ public class IOReader {
         }
     }
 
+    /**
+     * loads the members in their respective subscription types and preferred
+     * swimming
+     */
     public void loadMemberTypes() {
         for (Member member : memberFiles) {
             if (member.isCompetetive() && !member.isDeficit()) {
@@ -57,6 +66,10 @@ public class IOReader {
         }
     }
 
+    /**
+     * loads the competitions into the program
+     * @throws FileNotFoundException
+     */
     public void loadCompetitionsFromFile() throws FileNotFoundException {
         File directory = new File(Constants.COMPETITION_PATH);
         File[] files = directory.listFiles();
@@ -70,6 +83,11 @@ public class IOReader {
         }
     }
 
+    /**
+     * parses data from member text file
+     * @param memberId to find the specific member
+     * @return a member
+     */
     public Member readMemberFile(String memberId) {
         String name;
         String discipline;
@@ -134,6 +152,11 @@ public class IOReader {
         return memberToReturn;
     }
 
+    /**
+     * parses the data from the competition text file
+     * @param competitionName the name of the competition(swim type + date)
+     * @return a competition
+     */
     private Competition readCompetitionFile(String competitionName) {
 
         Competition competition = new Competition();

@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Menues.LoginMenu;
 
-
+// handles the switching from scene to scene
 public class Controller {
     private static Scene activeScene;
     private static Stage stage;

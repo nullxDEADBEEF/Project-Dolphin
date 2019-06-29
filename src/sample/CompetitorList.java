@@ -13,6 +13,9 @@ public class CompetitorList {
     public static ObservableList<Member> breaststrokeCompetitors =
             FXCollections.observableArrayList();
 
+    /**
+     * loads all the freestyle competitors into the program
+     */
     public static void loadFreestyleCompetitors() {
         freestyleCompetitors = FXCollections.observableArrayList();
 
@@ -23,6 +26,9 @@ public class CompetitorList {
         }
     }
 
+    /**
+     * loads all the backstroke competitors into the program
+     */
     public static void loadBackstrokeCompetitors() {
         backstrokeCompetitors = FXCollections.observableArrayList();
 
@@ -33,6 +39,9 @@ public class CompetitorList {
         }
     }
 
+    /**
+     * loads all the breaststroke competitors into the program
+     */
     public static void loadBreaststrokeCompetitors() {
         breaststrokeCompetitors = FXCollections.observableArrayList();
 
@@ -43,6 +52,9 @@ public class CompetitorList {
         }
     }
 
+    /**
+     * loads all the competitor types into the program
+     */
     public static void loadAllCompetitors() {
         loadFreestyleCompetitors();
         loadBackstrokeCompetitors();

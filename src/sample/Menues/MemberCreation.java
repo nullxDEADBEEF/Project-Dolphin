@@ -13,6 +13,7 @@ import sample.IO.IOWriter;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
+// handles the setup of the member creation page
 public class MemberCreation {
     private GridPane layout;
     private Scene scene;
@@ -52,6 +53,8 @@ public class MemberCreation {
         DisciplineList disciplineList = new DisciplineList();
         IOWriter ioWriter = new IOWriter();
         TrainerList trainerList = new TrainerList();
+
+        // setup GUI
 
         nameLabel = new Label("Name");
         disciplineLabel = new Label("Discipline");
@@ -143,6 +146,7 @@ public class MemberCreation {
         layout.add(finishButton, 0, 12);
         layout.add(backButton, 1, 12);
 
+        // creates a member(writes the data into a file)
         finishButton.setOnAction(click -> {
             Alert memberCreatedAlert  =
                     new Alert(Alert.AlertType.CONFIRMATION);
@@ -195,6 +199,9 @@ public class MemberCreation {
         });
     }
 
+    /**
+     * clears the GUI elements to avoid old data staying there
+     */
     private void clearFields() {
         nameTextField.clear();
         emailAddressTextField.clear();

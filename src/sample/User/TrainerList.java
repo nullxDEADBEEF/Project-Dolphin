@@ -2,6 +2,7 @@ package sample.User;
 
 import java.util.ArrayList;
 
+// Data holder for trainers
 public class TrainerList {
     private ArrayList<Trainer> trainers;
 

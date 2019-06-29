@@ -6,6 +6,7 @@ import javafx.util.Pair;
 
 import java.util.Comparator;
 
+// Data holder for high scores
 public class Highscore implements Comparator<Pair<Member, Integer>> {
     private ObservableList<Member> top5Participants;
     private ObservableList<Integer> top5ParticipantTimes;

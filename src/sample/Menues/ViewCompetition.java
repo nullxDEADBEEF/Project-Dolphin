@@ -6,14 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import sample.Competition;
 import sample.Constants;
-import sample.Controller;
-import sample.CompetitionList;
+import sample.Dataholder.CompetitionList;
 
 // handles the setup of viewing competitions
-public class ViewCompetition {
+public class ViewCompetition implements IScene {
     private Scene scene;
 
     public ViewCompetition() {

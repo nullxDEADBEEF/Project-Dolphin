@@ -1,8 +1,9 @@
-package sample;
+package sample.Dataholder;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
+import sample.Member;
 
 import java.util.Comparator;
 

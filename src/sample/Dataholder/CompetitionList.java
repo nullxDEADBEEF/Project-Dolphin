@@ -1,7 +1,8 @@
-package sample;
+package sample.Dataholder;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Competition;
 
 // Data holder for the different competition types
 public class CompetitionList {

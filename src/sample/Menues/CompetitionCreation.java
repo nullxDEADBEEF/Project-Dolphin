@@ -8,17 +8,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import sample.*;
+import sample.Dataholder.CompetitorList;
 import sample.Disciplines.Discipline;
 import sample.Disciplines.DisciplineList;
 import sample.IO.IOWriter;
-import sample.CompetitionList;
+import sample.Dataholder.CompetitionList;
 
 import java.util.ArrayList;
 
 // handles the setup of the competition creation page
-public class CompetitionCreation {
+public class CompetitionCreation implements IScene {
     private Scene scene;
 
     private DatePicker competitionDate;

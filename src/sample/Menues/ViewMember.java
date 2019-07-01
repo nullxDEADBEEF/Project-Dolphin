@@ -10,10 +10,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import sample.*;
+import sample.Dataholder.CompetitorList;
+import sample.Dataholder.MemberList;
 import sample.IO.IOWriter;
 
 // handles the setup of the view member page
-public class ViewMember {
+public class ViewMember implements IScene {
     private GridPane layout;
     private GridPane memberInfoLayout;
     private Scene scene;
@@ -42,7 +44,7 @@ public class ViewMember {
     private Popup depositPopUp;
 
     private IOWriter ioWriter;
-    private EditMember editMember;
+    private IEditMember editMember;
 
     public ViewMember() {
         layout = new GridPane();

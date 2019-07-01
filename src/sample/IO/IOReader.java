@@ -7,8 +7,8 @@ import sample.Constants;
 import sample.Disciplines.Discipline;
 import sample.Disciplines.DisciplineList;
 import sample.Member;
-import sample.MemberList;
-import sample.CompetitionList;
+import sample.Dataholder.MemberList;
+import sample.Dataholder.CompetitionList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 

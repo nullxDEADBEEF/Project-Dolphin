@@ -7,14 +7,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 import sample.*;
+import sample.Dataholder.CompetitionList;
+import sample.Dataholder.Highscore;
 
 import java.util.ArrayList;
 
 // handles the setup of the high score page
-public class ViewHighscore {
+public class ViewHighscore implements IScene {
     private GridPane layout;
     private Scene scene;
 

@@ -1,8 +1,10 @@
-package sample;
+package sample.Dataholder;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Member;
 
+// holds data for different competitor types
 public class CompetitorList {
     public static ObservableList<Member> freestyleCompetitors =
             FXCollections.observableArrayList();

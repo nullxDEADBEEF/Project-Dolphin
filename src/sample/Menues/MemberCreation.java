@@ -7,6 +7,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import sample.*;
+import sample.Dataholder.MemberList;
 import sample.Disciplines.Discipline;
 import sample.Disciplines.DisciplineList;
 import sample.IO.IOWriter;
@@ -14,7 +15,7 @@ import sample.User.Trainer;
 import sample.User.TrainerList;
 
 // handles the setup of the member creation page
-public class MemberCreation {
+public class MemberCreation implements IScene {
     private GridPane layout;
     private Scene scene;
 

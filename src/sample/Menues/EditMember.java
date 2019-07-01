@@ -12,12 +12,12 @@ import sample.Disciplines.DisciplineList;
 import sample.IO.IOReader;
 import sample.IO.IOWriter;
 import sample.Member;
-import sample.MemberList;
+import sample.Dataholder.MemberList;
 import sample.User.Trainer;
 import sample.User.TrainerList;
 
 // handles the setup of the edit member page
-public class EditMember {
+public class EditMember implements IEditMember, IScene {
     private GridPane layout;
     private Scene scene;
 

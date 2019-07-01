@@ -13,15 +13,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
 import sample.Constants;
-import sample.Controller;
 import sample.IO.IOWriter;
 import sample.Member;
-import sample.MemberList;
+import sample.Dataholder.MemberList;
 
 // handles the setup of the deficit members page
-public class DeficitMember {
+public class DeficitMember implements IScene {
     private GridPane memberInfoLayout;
 
     private Scene scene;
